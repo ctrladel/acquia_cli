@@ -1,3 +1,4 @@
+<!---
 ![Acquia Cli Test](https://github.com/typhonius/acquia_cli/workflows/Acquia%20Cli%20Test/badge.svg)
 [![Total Downloads](https://poser.pugx.org/typhonius/acquia_cli/downloads.png)](https://packagist.org/packages/typhonius/acquia_cli)
 [![Coverage Status](https://codecov.io/gh/typhonius/acquia_cli/branch/master/graph/badge.svg)](https://codecov.io/gh/typhonius/acquia_cli)
@@ -5,6 +6,7 @@
 [![License](https://poser.pugx.org/typhonius/acquia_cli/license.png)]()
 [![Latest Stable Version](https://poser.pugx.org/typhonius/acquia_cli/v/stable.png)](https://packagist.org/packages/typhonius/acquia_cli)
 [![Latest Unstable Version](https://poser.pugx.org/typhonius/acquia_cli/v/unstable.png)](https://packagist.org/packages/typhonius/acquia_cli)
+-->
 
 # Acquia Cli
 The Acquia Cli tool provides developers, sysops, release managers and website administrators with a simple to use tool for obtaining information and running tasks on the Acquia Cloud.

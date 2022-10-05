@@ -77,6 +77,8 @@ class RolesCommandTest extends AcquiaCliTestCase
 | add ssh key to prod         |           |                  |           |
 | view remote administration  |           |                  |           |
 | edit remote administration  |           |                  |           |
+| clear caches on prod        |           |                  |           |
+| clear caches on non-prod    |           |                  |           |
 +-----------------------------+-----------+------------------+-----------+
 TABLE;
 

@@ -82,7 +82,7 @@ class CronCommand extends AcquiaCommand
      * @command cron:delete
      * @aliases cron:remove
      */
-    public function cronDelete(Crons $cronAdapter, $uuid, $environment, $cronId)
+    public function cronDelete(Crons $cronAdapter, string $uuid, string $environment, int $cronId)
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm("Are you sure you want to delete the cron task?")) {

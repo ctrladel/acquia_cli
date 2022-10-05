@@ -2,6 +2,7 @@
 
 namespace AcquiaCli\Cli;
 
+use League\Container\Container;
 use Robo\Robo;
 use Robo\Application;
 use Robo\Runner as RoboRunner;
@@ -132,16 +133,19 @@ the field should be sorted in a descending order. Not all fields are sortable.'
 
     public function getContainer($input, $output, $application, $config, $client)
     {
-        $container = Robo::createDefaultContainer($input, $output, $application, $config);
+        $container = new Container();
+        Robo::configureContainer($container, $application, $config, $input, $output);
+        Robo::finalizeContainer($container);
+
         $container->add('client', $client);
 
         $container->add('cloudApi', CloudApi::class)
-            ->withArgument('config')
-            ->withArgument('client');
+            ->addArgument('config')
+            ->addArgument('client');
 
         $container->add('logstream', LogstreamManager::class)
-            ->withArgument('input')
-            ->withArgument('output');
+            ->addArgument('input')
+            ->addArgument('output');
 
         return $container;
     }

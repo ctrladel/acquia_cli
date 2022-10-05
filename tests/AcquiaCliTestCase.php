@@ -2,18 +2,18 @@
 
 namespace AcquiaCli\Tests;
 
-use AcquiaCloudApi\Connector\Client;
-use Symfony\Component\Console\Input\ArgvInput;
-use AcquiaCli\Cli\Config;
 use AcquiaCli\Cli\AcquiaCli;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Consolidation\AnnotatedCommand\CommandData;
-use Robo\Robo;
+use AcquiaCli\Cli\Config;
+use AcquiaCli\Injector\AcquiaCliInjector;
+use AcquiaCloudApi\Connector\Client;
+use AcquiaLogstream\LogstreamManager;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
-use AcquiaCli\Injector\AcquiaCliInjector;
-use AcquiaLogstream\LogstreamManager;
+use Robo\Robo;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class AcquiaCliTestCase
@@ -41,7 +41,7 @@ abstract class AcquiaCliTestCase extends TestCase
             $fixture
         );
         $this->assertFileExists($path);
-        $stream = Psr7\stream_for(file_get_contents($path));
+        $stream = Utils::streamFor(file_get_contents($path));
         $this->assertInstanceOf(Psr7\Stream::class, $stream);
 
         return $stream;
@@ -109,7 +109,7 @@ abstract class AcquiaCliTestCase extends TestCase
         $logstream = $this
             ->getMockBuilder('AcquiaLogstream\LogstreamManager')
             ->disableOriginalConstructor()
-            ->setMethods(['stream'])
+            ->onlyMethods(['stream'])
             ->getMock();
 
         $logstream
@@ -160,10 +160,11 @@ abstract class AcquiaCliTestCase extends TestCase
 
         // Override the LogstreamManager with a mock in the container.
         $container = Robo::getContainer();
-        $container->add('logstream', $this->logstream);
+        $container->extend('logstream')->setConcrete($this->logstream::class);
         $parameterInjection = $container->get('parameterInjection');
         $parameterInjection->register('AcquiaLogstream\LogstreamManager', new AcquiaCliInjector());
         Robo::setContainer($container);
+        Robo::finalizeContainer($container);
 
         $app->run($input, $output);
 
@@ -284,6 +285,9 @@ abstract class AcquiaCliTestCase extends TestCase
             '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/domains/actions/clear-varnish' => [
                 'post' => 'Domains/purgeVarnish.json'
             ],
+            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/actions/clear-caches' => [
+                'post' => 'Domains/clearCaches.json'
+            ],
             '/environments/32-a47ac10b-58cc-4372-a567-0e02b2c3d470/files' => [
                 'post' => 'Environments/copyFiles.json'
             ],
@@ -294,14 +298,14 @@ abstract class AcquiaCliTestCase extends TestCase
                 'get' => 'Crons/getAllCrons.json',
                 'post' => 'Crons/createCron.json'
             ],
-            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/cronId' => [
+            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/24' => [
                 'get' => 'Crons/getCron.json',
                 'delete' => 'Crons/deleteCron.json'
             ],
-            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/cronId/actions/enable' => [
+            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/24/actions/enable' => [
                 'post' => 'Crons/enableCron.json'
             ],
-            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/cronId/actions/disable' => [
+            '/environments/24-a47ac10b-58cc-4372-a567-0e02b2c3d470/crons/24/actions/disable' => [
                 'post' => 'Crons/disableCron.json'
             ],
             '/environments/15-a47ac10b-58cc-4372-a567-0e02b2c3d470/code/actions/switch' => [

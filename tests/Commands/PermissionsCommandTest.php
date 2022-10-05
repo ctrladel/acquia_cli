@@ -74,6 +74,8 @@ class PermissionsCommandTest extends AcquiaCliTestCase
 | add ssh key to prod         | Add SSH key to the production environment                                |
 | view remote administration  | View Remote Administration                                               |
 | edit remote administration  | Edit Remote Administration                                               |
+| clear caches on prod        | Clear caches for the production environment                              |
+| clear caches on non-prod    | Clear caches for non-production environments                             |
 +-----------------------------+--------------------------------------------------------------------------+
 LIST;
 

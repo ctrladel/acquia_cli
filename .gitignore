@@ -5,3 +5,4 @@ vendor
 tests/logs
 tools
 *.phar
+composer.lock

@@ -2,9 +2,8 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\CronResponse;
 use AcquiaCloudApi\Endpoints\Crons;
-use AcquiaCloudApi\Response\EnvironmentResponse;
+use AcquiaCloudApi\Response\CronResponse;
 use Symfony\Component\Console\Helper\Table;
 
 /**
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Helper\Table;
  */
 class CronCommand extends AcquiaCommand
 {
-
     /**
      * Shows all cron tasks associated with an environment.
      *

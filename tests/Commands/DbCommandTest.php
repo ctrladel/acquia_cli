@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class DbCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider dbProvider
      */

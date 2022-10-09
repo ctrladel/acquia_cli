@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 abstract class AcquiaCliTestCase extends TestCase
 {
-
     public $client;
     public $logstream;
 

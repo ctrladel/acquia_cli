@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class LiveDevCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider liveDevProvider
      */

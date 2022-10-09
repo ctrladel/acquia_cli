@@ -2,19 +2,18 @@
 
 namespace AcquiaCli\Commands;
 
+use Exception;
 use Robo\Tasks;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Exception;
 
 /**
  * Class SetupCommand
  *
  * @package AcquiaCli\Commands
- * @throws Exception
+ * @throws  Exception
  */
 class CacheClearCommand extends Tasks
 {
-
     /**
      * Clears the application and environment caches that are stored on disk. This command can be used if other commands
      * are returning cached information that does not accurately reflect the data from Acquia Cloud.

@@ -2,15 +2,13 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Connector\Connector;
 use AcquiaCloudApi\Connector\Client;
-use AcquiaCloudApi\Response\EnvironmentResponse;
-use AcquiaCloudApi\Endpoints\Databases;
+use AcquiaCloudApi\Connector\Connector;
 use AcquiaCloudApi\Endpoints\DatabaseBackups;
+use AcquiaCloudApi\Endpoints\Databases;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 /**
  * Class DbBackupCommand
@@ -19,7 +17,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class DbBackupCommand extends AcquiaCommand
 {
-
     private $downloadProgress;
 
     private $lastStep;

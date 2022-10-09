@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class RolesCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider roleProvider
      */

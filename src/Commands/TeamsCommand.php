@@ -2,13 +2,12 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\OrganizationResponse;
+use AcquiaCloudApi\Endpoints\Permissions;
+use AcquiaCloudApi\Endpoints\Roles;
+use AcquiaCloudApi\Endpoints\Teams;
 use AcquiaCloudApi\Response\PermissionResponse;
 use AcquiaCloudApi\Response\RoleResponse;
 use Symfony\Component\Console\Helper\Table;
-use AcquiaCloudApi\Endpoints\Teams;
-use AcquiaCloudApi\Endpoints\Permissions;
-use AcquiaCloudApi\Endpoints\Roles;
 
 /**
  * Class TeamsCommand
@@ -17,7 +16,6 @@ use AcquiaCloudApi\Endpoints\Roles;
  */
 class TeamsCommand extends AcquiaCommand
 {
-
     /**
      * Creates a new team within an organization.
      *
@@ -37,8 +35,8 @@ class TeamsCommand extends AcquiaCommand
      * Invites a user to a team.
      *
      * @param string $teamUuid
-     * @param string $email        The email address for the user that needs to be invited.
-     * @param string $roleUuids    A comma separated list of role UUIDs that a user should be invited to.
+     * @param string $email     The email address for the user that needs to be invited.
+     * @param string $roleUuids A comma separated list of role UUIDs that a user should be invited to.
      *
      * @command team:invite
      */

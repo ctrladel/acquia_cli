@@ -2,7 +2,6 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\Environments;
 
 /**
@@ -12,7 +11,6 @@ use AcquiaCloudApi\Endpoints\Environments;
  */
 class LivedevCommand extends EnvironmentsCommand
 {
-
     /**
      * Enable livedev for an environment.
      *

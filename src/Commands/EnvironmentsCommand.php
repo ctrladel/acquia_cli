@@ -16,7 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class EnvironmentsCommand extends AcquiaCommand
 {
-
     /**
      * Shows list of environments in an application.
      *

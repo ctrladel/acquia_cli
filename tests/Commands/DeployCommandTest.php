@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class DeployCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider deployProvider
      */

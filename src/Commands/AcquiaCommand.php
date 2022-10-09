@@ -2,22 +2,21 @@
 
 namespace AcquiaCli\Commands;
 
+use AcquiaCloudApi\Endpoints\DatabaseBackups;
+use AcquiaCloudApi\Endpoints\Databases;
 use AcquiaCloudApi\Endpoints\Environments;
 use AcquiaCloudApi\Endpoints\Notifications;
-use AcquiaCloudApi\Endpoints\Databases;
-use AcquiaCloudApi\Endpoints\DatabaseBackups;
 use AcquiaCloudApi\Response\DatabaseResponse;
 use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Response\OperationResponse;
+use Consolidation\AnnotatedCommand\AnnotationData;
 use Consolidation\AnnotatedCommand\CommandData;
+use Robo\Robo;
+use Robo\Tasks;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
-use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
-use Robo\Tasks;
-use Robo\Robo;
-use Exception;
 
 /**
  * Class AcquiaCommand
@@ -26,7 +25,6 @@ use Exception;
  */
 abstract class AcquiaCommand extends Tasks
 {
-
     /**
      * @var \AcquiaCli\Cli\CloudApi $cloudapiService
      */
@@ -226,8 +224,8 @@ abstract class AcquiaCommand extends Tasks
      * @param string              $uuid
      * @param EnvironmentResponse $environmentFrom
      * @param EnvironmentResponse $environmentTo
-     * @param null|string         $dbName The DB to move, if null move all DBs.
-     * @param boolean             $backup Whether to backup DBs first.
+     * @param null|string         $dbName          The DB to move, if null move all DBs.
+     * @param boolean             $backup          Whether to backup DBs first.
      */
     protected function moveDbs($uuid, $environmentFrom, $environmentTo, $dbName = null, $backup = true)
     {

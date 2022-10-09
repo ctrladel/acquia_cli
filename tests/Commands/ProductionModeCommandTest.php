@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class ProductionModeCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider productionModeProvider
      */

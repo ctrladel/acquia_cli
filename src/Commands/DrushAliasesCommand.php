@@ -12,7 +12,6 @@ use Webmozart\PathUtil\Path;
  */
 class DrushAliasesCommand extends AccountCommand
 {
-
     /**
      * Downloads a compressed archive of Drush aliases and prompts the user to unpack it in the right place.
      *

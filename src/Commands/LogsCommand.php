@@ -2,13 +2,12 @@
 
 namespace AcquiaCli\Commands;
 
+use AcquiaCli\Cli\CloudApi;
 use AcquiaCloudApi\Endpoints\Logs;
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaLogstream\LogstreamManager;
 use Robo\Common\InputAwareTrait;
 use Robo\Common\OutputAwareTrait;
 use Symfony\Component\Console\Helper\Table;
-use AcquiaCli\Cli\CloudApi;
 
 /**
  * Class LogsCommand

@@ -2,14 +2,14 @@
 
 namespace AcquiaCli\Commands;
 
+use AcquiaCloudApi\Endpoints\Organizations;
 use AcquiaCloudApi\Response\ApplicationResponse;
 use AcquiaCloudApi\Response\MemberResponse;
 use AcquiaCloudApi\Response\OrganizationResponse;
 use AcquiaCloudApi\Response\TeamResponse;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Helper\TableCell;
-use AcquiaCloudApi\Endpoints\Organizations;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 /**
  * Class OrganizationsCommand
@@ -18,7 +18,6 @@ use AcquiaCloudApi\Endpoints\Organizations;
  */
 class OrganizationsCommand extends AcquiaCommand
 {
-
     /**
      * Shows a list of all organizations.
      *

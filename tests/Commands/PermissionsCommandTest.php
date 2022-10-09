@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class PermissionsCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider permissionsProvider
      */

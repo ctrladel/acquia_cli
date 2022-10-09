@@ -2,13 +2,12 @@
 
 namespace AcquiaCli\Commands;
 
+use AcquiaCloudApi\Endpoints\Applications;
+use AcquiaCloudApi\Endpoints\Databases;
+use AcquiaCloudApi\Endpoints\Environments;
 use AcquiaCloudApi\Response\EnvironmentResponse;
 use Symfony\Component\Console\Helper\Table;
-use AcquiaCloudApi\Endpoints\Applications;
-use AcquiaCloudApi\Endpoints\Environments;
-use AcquiaCloudApi\Endpoints\Databases;
 use Symfony\Component\Console\Output\OutputInterface;
-use AcquiaCli\Cli\CloudApi;
 
 /**
  * Class ApplicationsCommand
@@ -17,7 +16,6 @@ use AcquiaCli\Cli\CloudApi;
  */
 class ApplicationsCommand extends AcquiaCommand
 {
-
     /**
      * Shows all sites a user has access to.
      *

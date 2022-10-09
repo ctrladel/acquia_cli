@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class OrganizationsCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider organizationsProvider
      */

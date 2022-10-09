@@ -2,8 +2,8 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Endpoints\Account;
 use AcquiaCli\Cli\Config;
+use AcquiaCloudApi\Endpoints\Account;
 
 /**
  * Class AccountCommand
@@ -12,7 +12,6 @@ use AcquiaCli\Cli\Config;
  */
 class AccountCommand extends AcquiaCommand
 {
-
     /**
      * Gets information about the user's account.
      *

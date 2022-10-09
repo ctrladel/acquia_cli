@@ -2,9 +2,9 @@
 
 namespace AcquiaCli\Cli;
 
-use Robo\Config\Config as RoboConfig;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Consolidation\Config\Loader\YamlConfigLoader;
+use Robo\Config\Config as RoboConfig;
 use Robo\Config\GlobalOptionDefaultValuesInterface;
 use Webmozart\PathUtil\Path;
 

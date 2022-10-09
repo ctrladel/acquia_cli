@@ -2,9 +2,6 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
-use AcquiaCloudApi\Endpoints\Environments;
-
 /**
  * Class FilesCommand
  *

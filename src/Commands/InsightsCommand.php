@@ -2,13 +2,12 @@
 
 namespace AcquiaCli\Commands;
 
+use AcquiaCli\Cli\CloudApi;
+use AcquiaCloudApi\Endpoints\Insights;
 use AcquiaCloudApi\Response\InsightCountResponse;
 use AcquiaCloudApi\Response\InsightModuleResponse;
 use AcquiaCloudApi\Response\InsightResponse;
-use AcquiaCloudApi\Response\EnvironmentResponse;
-use AcquiaCloudApi\Endpoints\Insights;
 use Symfony\Component\Console\Helper\Table;
-use AcquiaCli\Cli\CloudApi;
 
 /**
  * Class InsightsCommand
@@ -17,7 +16,6 @@ use AcquiaCli\Cli\CloudApi;
  */
 class InsightsCommand extends AcquiaCommand
 {
-
     /**
      * Shows Insights information for specified applications.
      *

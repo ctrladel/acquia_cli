@@ -4,11 +4,10 @@ namespace AcquiaCli\Commands;
 
 use AcquiaCli\Cli\Config;
 use AcquiaCloudApi\Connector\Client;
-use AcquiaCloudApi\Endpoints\Notifications;
 use AcquiaCloudApi\Endpoints\Applications;
+use AcquiaCloudApi\Endpoints\Notifications;
 use AcquiaCloudApi\Endpoints\Organizations;
 use Symfony\Component\Console\Helper\Table;
-use AcquiaCloudApi\Exception\ApiErrorException;
 
 /**
  * Class NotificationsCommand
@@ -17,14 +16,13 @@ use AcquiaCloudApi\Exception\ApiErrorException;
  */
 class NotificationsCommand extends AcquiaCommand
 {
-
     /**
      * Gets all notifications associated with a site.
      *
      * @param string $uuid
      *
      * @command notification:list
-     * @option details Whether to show more details in the notication list (slower).
+     * @option  details Whether to show more details in the notication list (slower).
      * @aliases n:l
      */
     public function notificationList(
@@ -76,10 +74,14 @@ class NotificationsCommand extends AcquiaCommand
             $members = $organizationsAdapter->getMembers($orgUuid);
 
             $users = $admins->getArrayCopy() + $members->getArrayCopy();
-            $uuids = array_reduce($users, function ($result, $member) {
-                $result[$member->uuid] = $member->mail;
-                return $result;
-            }, []);
+            $uuids = array_reduce(
+                $users,
+                function ($result, $member) {
+                    $result[$member->uuid] = $member->mail;
+                    return $result;
+                },
+                []
+            );
         }
 
         foreach ($notifications as $notification) {
@@ -153,10 +155,14 @@ class NotificationsCommand extends AcquiaCommand
         $admins = $organizationsAdapter->getAdmins($orgUuid);
         $members = $organizationsAdapter->getMembers($orgUuid);
         $users = $admins->getArrayCopy() + $members->getArrayCopy();
-        $uuids = array_reduce($users, function ($result, $member) {
-            $result[$member->uuid] = $member->mail;
-            return $result;
-        }, []);
+        $uuids = array_reduce(
+            $users,
+            function ($result, $member) {
+                $result[$member->uuid] = $member->mail;
+                return $result;
+            },
+            []
+        );
         $author = $notification->context->author->uuid;
         $mail = isset($uuids[$author]) ? $uuids[$author] : 'N/A';
 

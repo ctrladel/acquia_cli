@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class NotificationCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider notificationProvider
      */

@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class LogForwardCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider logForwardProvider
      */

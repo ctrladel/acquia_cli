@@ -2,14 +2,8 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Connector\Connector;
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\Databases;
-use AcquiaCloudApi\Endpoints\DatabaseBackups;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
-use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class DbCommand
@@ -18,7 +12,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class DbCommand extends AcquiaCommand
 {
-
     /**
      * Shows all databases.
      *
@@ -106,7 +99,7 @@ class DbCommand extends AcquiaCommand
      * @param string $dbName
      *
      * @command database:copy
-     * @option no-backup Do not backup the databases on production.
+     * @option  no-backup Do not backup the databases on production.
      * @aliases db:copy
      */
     public function dbCopy(
@@ -145,7 +138,7 @@ class DbCommand extends AcquiaCommand
      * @param string $environmentTo
      *
      * @command database:copy:all
-     * @option no-backup Do not backup the databases on production.
+     * @option  no-backup Do not backup the databases on production.
      * @aliases db:copy:all
      */
     public function dbCopyAll(

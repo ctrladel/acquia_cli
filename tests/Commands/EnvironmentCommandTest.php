@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class EnvironmentCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider environmentProvider
      */

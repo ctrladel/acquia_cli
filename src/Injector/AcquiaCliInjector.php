@@ -2,33 +2,31 @@
 
 namespace AcquiaCli\Injector;
 
-use Consolidation\AnnotatedCommand\ParameterInjector;
-use Consolidation\AnnotatedCommand\CommandData;
-use AcquiaCli\Cli\CloudApi;
-use AcquiaCloudApi\Endpoints\Applications;
-use AcquiaCloudApi\Endpoints\Environments;
-use AcquiaCloudApi\Endpoints\Databases;
-use AcquiaCloudApi\Endpoints\Servers;
-use AcquiaCloudApi\Endpoints\Domains;
-use AcquiaCloudApi\Endpoints\Code;
-use AcquiaCloudApi\Endpoints\DatabaseBackups;
-use AcquiaCloudApi\Endpoints\Crons;
 use AcquiaCloudApi\Endpoints\Account;
-use AcquiaCloudApi\Endpoints\Permissions;
-use AcquiaCloudApi\Endpoints\Roles;
-use AcquiaCloudApi\Endpoints\Teams;
-use AcquiaCloudApi\Endpoints\Variables;
-use AcquiaCloudApi\Endpoints\Logs;
-use AcquiaCloudApi\Endpoints\Notifications;
+use AcquiaCloudApi\Endpoints\Applications;
+use AcquiaCloudApi\Endpoints\Code;
+use AcquiaCloudApi\Endpoints\Crons;
+use AcquiaCloudApi\Endpoints\DatabaseBackups;
+use AcquiaCloudApi\Endpoints\Databases;
+use AcquiaCloudApi\Endpoints\Domains;
+use AcquiaCloudApi\Endpoints\Environments;
+use AcquiaCloudApi\Endpoints\Ides;
 use AcquiaCloudApi\Endpoints\Insights;
 use AcquiaCloudApi\Endpoints\LogForwardingDestinations;
-use AcquiaCloudApi\Endpoints\SslCertificates;
+use AcquiaCloudApi\Endpoints\Logs;
+use AcquiaCloudApi\Endpoints\Notifications;
 use AcquiaCloudApi\Endpoints\Organizations;
-use AcquiaCloudApi\Endpoints\Ides;
+use AcquiaCloudApi\Endpoints\Permissions;
+use AcquiaCloudApi\Endpoints\Roles;
+use AcquiaCloudApi\Endpoints\Servers;
+use AcquiaCloudApi\Endpoints\SslCertificates;
+use AcquiaCloudApi\Endpoints\Teams;
+use AcquiaCloudApi\Endpoints\Variables;
+use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\AnnotatedCommand\ParameterInjector;
 
 class AcquiaCliInjector implements ParameterInjector
 {
-
     protected $config;
     protected $cloudapi;
     protected $client;

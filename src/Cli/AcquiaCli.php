@@ -2,20 +2,19 @@
 
 namespace AcquiaCli\Cli;
 
-use League\Container\Container;
-use Robo\Robo;
-use Robo\Application;
-use Robo\Runner as RoboRunner;
-use Robo\Common\ConfigAwareTrait;
+use AcquiaCli\Injector\AcquiaCliInjector;
 use AcquiaCloudApi\Connector\Client;
 use AcquiaLogstream\LogstreamManager;
-use AcquiaCli\Injector\AcquiaCliInjector;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Output\OutputInterface;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
+use League\Container\Container;
+use Robo\Application;
+use Robo\Common\ConfigAwareTrait;
+use Robo\Robo;
+use Robo\Runner as RoboRunner;
+use Symfony\Component\Console\Command\LockableTrait;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class AcquiaCli
@@ -51,9 +50,12 @@ class AcquiaCli
         }
 
         // Configure global client options to set user agent.
-        $client->addOption('headers', [
+        $client->addOption(
+            'headers',
+            [
             'User-Agent' => sprintf("%s/%s (https://github.com/typhonius/acquia_cli)", self::NAME, $version)
-        ]);
+            ]
+        );
 
         // Create application.
         $this->setConfig($config);

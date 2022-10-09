@@ -2,8 +2,8 @@
 
 namespace AcquiaCli\Commands;
 
-use Robo\Tasks;
 use AcquiaCli\Cli\Config;
+use Robo\Tasks;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -13,7 +13,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class SetupCommand extends Tasks
 {
-
     /**
      * Performs a check of the config files and provides a view of the parameters provided. Allows the user to create
      * new config files with correct parameters.

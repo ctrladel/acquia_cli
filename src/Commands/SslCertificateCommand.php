@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SslCertificateCommand extends AcquiaCommand
 {
-
     /**
      * Lists SSL Certificates.
      *
@@ -137,13 +136,13 @@ class SslCertificateCommand extends AcquiaCommand
     /**
      * Install an SSL certificate
      *
-     * @param string $uuid
-     * @param string $environment
-     * @param string $label
-     * @param string $certificate The path to the certificate file.
-     * @param string $key The path to the private key file.
-     * @param null|string $ca The path to the certificate authority file.
-     * @option activate Enable certification after creation.
+     * @param   string      $uuid
+     * @param   string      $environment
+     * @param   string      $label
+     * @param   string      $certificate The path to the certificate file.
+     * @param   string      $key         The path to the private key file.
+     * @param   null|string $ca          The path to the certificate authority file.
+     * @option  activate Enable certification after creation.
      * @command ssl:create
      */
     public function sslCertificateCreate(

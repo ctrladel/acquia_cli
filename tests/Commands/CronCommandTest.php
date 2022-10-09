@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class CronCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider cronProvider
      */

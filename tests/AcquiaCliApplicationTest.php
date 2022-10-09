@@ -2,14 +2,14 @@
 
 namespace AcquiaCli\Tests;
 
-use AcquiaCli\Cli\Config;
-use AcquiaCli\Cli\CloudApi;
-use Symfony\Component\Console\Input\ArgvInput;
 use AcquiaCli\Cli\AcquiaCli;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Stopwatch\Stopwatch;
+use AcquiaCli\Cli\CloudApi;
+use AcquiaCli\Cli\Config;
 use Symfony\Component\Console\Command\LockableTrait;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class AcquiaCliApplicationTest extends AcquiaCliTestCase
 {

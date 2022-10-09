@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class SshCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider sshProvider
      */

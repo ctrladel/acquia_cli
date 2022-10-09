@@ -2,7 +2,6 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\LogForwardingDestinations;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class LogForwardCommand extends AcquiaCommand
 {
-
     /**
      * Lists Log Forwards.
      *

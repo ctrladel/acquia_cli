@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class AccountCommandTest extends AcquiaCliTestCase
 {
-
     // public function testDownloadDrushCommands()
     // {
     //     $command = ['drush:aliases'];

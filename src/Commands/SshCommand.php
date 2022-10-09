@@ -3,8 +3,8 @@
 namespace AcquiaCli\Commands;
 
 use AcquiaCloudApi\Connector\Client;
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\Environments;
+use AcquiaCloudApi\Response\EnvironmentResponse;
 
 /**
  * Class SshCommand
@@ -13,7 +13,6 @@ use AcquiaCloudApi\Endpoints\Environments;
  */
 class SshCommand extends EnvironmentsCommand
 {
-
     /**
      * Shows SSH connection strings for specified environments.
      *

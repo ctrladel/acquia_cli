@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class SslCertificateCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider sslCertificateProvider
      */

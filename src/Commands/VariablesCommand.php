@@ -2,12 +2,10 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\VariablesResponse;
-use AcquiaCloudApi\Response\VariableResponse;
-use AcquiaCloudApi\Response\EnvironmentResponse;
-use AcquiaCloudApi\Endpoints\Variables;
-use Symfony\Component\Console\Helper\Table;
 use AcquiaCli\Cli\CloudApi;
+use AcquiaCloudApi\Endpoints\Variables;
+use AcquiaCloudApi\Response\VariableResponse;
+use Symfony\Component\Console\Helper\Table;
 
 /**
  * Class VariablesCommand
@@ -16,7 +14,6 @@ use AcquiaCli\Cli\CloudApi;
  */
 class VariablesCommand extends AcquiaCommand
 {
-
     /**
      * Lists variables.
      *

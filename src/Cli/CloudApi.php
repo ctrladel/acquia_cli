@@ -2,7 +2,6 @@
 
 namespace AcquiaCli\Cli;
 
-use Robo\Config\Config;
 use AcquiaCloudApi\Connector\Client;
 use AcquiaCloudApi\Connector\Connector;
 use AcquiaCloudApi\Endpoints\Applications;
@@ -10,7 +9,7 @@ use AcquiaCloudApi\Endpoints\Environments;
 use AcquiaCloudApi\Endpoints\Organizations;
 use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Response\OrganizationResponse;
-use Symfony\Component\Console\Input\InputInterface;
+use Robo\Config\Config;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -21,7 +20,6 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class CloudApi
 {
-
     protected $client;
 
     protected $config;
@@ -62,20 +60,23 @@ class CloudApi
 
         $cache = new FilesystemAdapter('acquiacli');
         $cache->deleteItem($cacheId);
-        $return = $cache->get($cacheId, function (ItemInterface $item) {
-            $count = -1;
-            $name = str_replace('application:', '', str_replace('.', ':', $item->getKey()));
+        $return = $cache->get(
+            $cacheId,
+            function (ItemInterface $item) {
+                $count = -1;
+                $name = str_replace('application:', '', str_replace('.', ':', $item->getKey()));
 
-            $app = new Applications($this->client);
-            $applications = $app->getAll();
+                $app = new Applications($this->client);
+                $applications = $app->getAll();
 
-            foreach ($applications as $application) {
-                if ($name === $application->hosting->id) {
-                    return $application->uuid;
+                foreach ($applications as $application) {
+                    if ($name === $application->hosting->id) {
+                        return $application->uuid;
+                    }
                 }
+                throw new \Exception('Unable to find UUID for application');
             }
-            throw new \Exception('Unable to find UUID for application');
-        });
+        );
 
         return $return;
     }
@@ -91,22 +92,25 @@ class CloudApi
         $cacheId = sprintf('environment.%s.%s', $uuid, $environment);
 
         $cache = new FilesystemAdapter('acquiacli');
-        $return = $cache->get($cacheId, function (ItemInterface $item) {
-            $split = explode('.', $item->getKey());
-            $uuid = $split[1];
-            $environment = $split[2];
+        $return = $cache->get(
+            $cacheId,
+            function (ItemInterface $item) {
+                $split = explode('.', $item->getKey());
+                $uuid = $split[1];
+                $environment = $split[2];
 
-            $environmentsAdapter = new Environments($this->client);
-            $environments = $environmentsAdapter->getAll($uuid);
+                $environmentsAdapter = new Environments($this->client);
+                $environments = $environmentsAdapter->getAll($uuid);
 
-            foreach ($environments as $e) {
-                if ($environment === $e->name) {
-                    return $e;
+                foreach ($environments as $e) {
+                    if ($environment === $e->name) {
+                        return $e;
+                    }
                 }
-            }
 
-            throw new \Exception('Unable to find environment from environment name');
-        });
+                throw new \Exception('Unable to find environment from environment name');
+            }
+        );
 
         return $return;
     }

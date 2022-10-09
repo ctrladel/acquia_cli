@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class DbBackupCommandTest extends AcquiaCliTestCase
 {
-
     public function testDownloadDatabaseBackupsCommands()
     {
         $command = ['database:backup:download', 'devcloud:devcloud2', 'dev', 'database2'];

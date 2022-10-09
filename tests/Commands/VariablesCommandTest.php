@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class VariablesCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider variablesProvider
      */

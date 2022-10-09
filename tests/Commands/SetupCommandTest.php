@@ -2,18 +2,10 @@
 
 namespace AcquiaCli\Tests\Commands;
 
-use Robo\Robo;
-use AcquiaCli\Cli\Config;
-use AcquiaCli\Cli\AcquiaCli;
 use AcquiaCli\Tests\AcquiaCliTestCase;
-use Symfony\Component\Console\Input\ArgvInput;
-use Consolidation\Config\Loader\ConfigProcessor;
-use Consolidation\Config\Loader\YamlConfigLoader;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 class SetupCommandTest extends AcquiaCliTestCase
 {
-
     public function testSetupConfigViewDefault()
     {
         $command = ['setup:config:view'];

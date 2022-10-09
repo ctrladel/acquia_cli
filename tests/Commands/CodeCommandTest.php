@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class CodeCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider codeProvider
      */

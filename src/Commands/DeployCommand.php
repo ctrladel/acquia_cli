@@ -2,8 +2,6 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
-
 /**
  * Class DeployCommand
  *

@@ -2,8 +2,8 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\Environments;
+use AcquiaCloudApi\Response\EnvironmentResponse;
 
 /**
  * Class ProductionModeCommand
@@ -12,7 +12,6 @@ use AcquiaCloudApi\Endpoints\Environments;
  */
 class ProductionModeCommand extends EnvironmentsCommand
 {
-
     /**
      * Enable production mode for an environment.
      *

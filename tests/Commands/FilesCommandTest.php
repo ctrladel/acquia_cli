@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class FilesCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider filesProvider
      */

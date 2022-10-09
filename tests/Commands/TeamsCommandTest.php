@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class TeamsCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider teamsProvider
      */

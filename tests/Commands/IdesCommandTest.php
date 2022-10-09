@@ -6,7 +6,6 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class IdesCommandTest extends AcquiaCliTestCase
 {
-
     /**
      * @dataProvider idesProvider
      */

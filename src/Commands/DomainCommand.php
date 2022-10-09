@@ -2,7 +2,6 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Endpoints\Domains;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DomainCommand extends AcquiaCommand
 {
-
     /**
      * Lists domains.
      *

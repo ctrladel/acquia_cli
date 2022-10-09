@@ -4,9 +4,6 @@ namespace AcquiaCli\Commands;
 
 use AcquiaCloudApi\Endpoints\Ides;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
-use Symfony\Component\Console\Helper\TableCell;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class IdesCommand
@@ -15,7 +12,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class IdesCommand extends AcquiaCommand
 {
-
     /**
      * Shows all IDEs.
      *

@@ -2,12 +2,11 @@
 
 namespace AcquiaCli\Commands;
 
-use AcquiaCloudApi\Response\BranchResponse;
-use AcquiaCloudApi\Response\EnvironmentResponse;
-use Symfony\Component\Console\Helper\Table;
-use AcquiaCloudApi\Endpoints\Code;
-use AcquiaCloudApi\Connector\Client;
 use AcquiaCli\Cli\CloudApi;
+use AcquiaCloudApi\Connector\Client;
+use AcquiaCloudApi\Endpoints\Code;
+use AcquiaCloudApi\Response\BranchResponse;
+use Symfony\Component\Console\Helper\Table;
 
 /**
  * Class CodeCommand
@@ -16,7 +15,6 @@ use AcquiaCli\Cli\CloudApi;
  */
 class CodeCommand extends AcquiaCommand
 {
-
     /**
      * Gets all code branches and tags associated with an application.
      *
@@ -61,7 +59,7 @@ class CodeCommand extends AcquiaCommand
      * @param string $environmentTo
      *
      * @command code:deploy
-     * @option no-backup Do not backup the database(s) prior to deploying code.
+     * @option  no-backup Do not backup the database(s) prior to deploying code.
      * @aliases c:d
      */
     public function codeDeploy(
@@ -110,7 +108,7 @@ class CodeCommand extends AcquiaCommand
      * @param string $branch
      *
      * @command code:switch
-     * @option no-backup Do not backup the database(s) prior to switching code.
+     * @option  no-backup Do not backup the database(s) prior to switching code.
      * @aliases c:s
      */
     public function codeSwitch(

@@ -43,6 +43,7 @@ jobs:
       - name: Run test suite
         run: composer run-script test
   unit-tests:
+    needs: static-analysis
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false

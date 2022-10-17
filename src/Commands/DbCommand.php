@@ -100,6 +100,7 @@ class DbCommand extends AcquiaCommand
      * @param string $environmentFrom
      * @param string $environmentTo
      * @param string $dbName
+     * @phpstan-param array<mixed> $options
      * @throws \Exception
      *
      * @command database:copy
@@ -140,6 +141,7 @@ class DbCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environmentFrom
      * @param string $environmentTo
+     * @phpstan-param array<mixed> $options
      * @throws \Exception
      *
      * @command database:copy:all

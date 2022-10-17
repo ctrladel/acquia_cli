@@ -46,6 +46,7 @@ class InsightsCommand extends AcquiaCommand
      * Shows insights alerts for specified applications.
      *
      * @param string $siteId
+     * @phpstan-param array<mixed> $options
      * @option failed Whether to only show failed insight checks.
      *
      * @command insights:alerts:list
@@ -106,6 +107,7 @@ class InsightsCommand extends AcquiaCommand
      * Shows insights alerts for specified applications.
      *
      * @param string $siteId
+     * @phpstan-param array<mixed> $options
      * @option enabled Whether to only show enabled modules.
      * @option upgradeable Whether to only show modules that need an upgrade.
      *

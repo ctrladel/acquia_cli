@@ -142,6 +142,7 @@ class SslCertificateCommand extends AcquiaCommand
      * @param string $certificate The path to the certificate file.
      * @param string $key The path to the private key file.
      * @param string|null $ca The path to the certificate authority file.
+     * @phpstan-param array<mixed> $options
      * @throws \Exception
      *
      * @option  activate Enable certification after creation.

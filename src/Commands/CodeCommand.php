@@ -54,7 +54,9 @@ class CodeCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environmentFrom
      * @param string $environmentTo
+     * @phpstan-param array<mixed> $options
      * @throws \Exception
+     *
      * @command code:deploy
      * @option  no-backup Do not backup the database(s) prior to deploying code.
      * @aliases c:d
@@ -64,7 +66,7 @@ class CodeCommand extends AcquiaCommand
         string $uuid,
         string $environmentFrom,
         string $environmentTo,
-        ?array $options = ['no-backup']
+        array $options = ['no-backup']
     ): void {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);
@@ -103,6 +105,7 @@ class CodeCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $branch
+     * @phpstan-param array<mixed> $options
      * @throws \Exception
      * @command code:switch
      * @option  no-backup Do not backup the database(s) prior to switching code.

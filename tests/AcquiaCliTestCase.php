@@ -20,8 +20,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 abstract class AcquiaCliTestCase extends TestCase
 {
-    public $client;
-    public $logstream;
+    public Client $client;
+    public LogstreamManager $logstream;
 
     public function setUp(): void
     {
@@ -29,7 +29,7 @@ abstract class AcquiaCliTestCase extends TestCase
         $this->logstream = $this->getMockLogstream();
     }
 
-    protected function getPsr7StreamForFixture($fixture): StreamInterface
+    protected function getPsr7StreamForFixture(string $fixture): StreamInterface
     {
         // Clear json_last_error().
         json_decode('[]');
@@ -53,7 +53,7 @@ abstract class AcquiaCliTestCase extends TestCase
      * @param  integer $statusCode A HTTP Status Code for the response.
      * @return Psr7\Response
      */
-    protected function getPsr7JsonResponseForFixture($fixture, $statusCode = 200): Psr7\Response
+    protected function getPsr7JsonResponseForFixture(string $fixture, int $statusCode = 200): Psr7\Response
     {
         $stream = $this->getPsr7StreamForFixture($fixture);
         $this->assertNotNull(json_decode($stream));
@@ -69,7 +69,7 @@ abstract class AcquiaCliTestCase extends TestCase
      * @param  integer $statusCode A HTTP Status Code for the response.
      * @return Psr7\Response
      */
-    protected function getPsr7GzipResponseForFixture($fixture, $statusCode = 200): Psr7\Response
+    protected function getPsr7GzipResponseForFixture(string $fixture, int $statusCode = 200): Psr7\Response
     {
         $stream = $this->getPsr7StreamForFixture($fixture);
         $this->assertEquals(JSON_ERROR_NONE, json_last_error());
@@ -82,7 +82,7 @@ abstract class AcquiaCliTestCase extends TestCase
      *
      * @return Client
      */
-    protected function getMockClient()
+    protected function getMockClient(): Client
     {
         $connector = $this
             ->getMockBuilder('AcquiaCloudApi\Connector\Connector')
@@ -103,7 +103,7 @@ abstract class AcquiaCliTestCase extends TestCase
      *
      * @return LogstreamManager
      */
-    protected function getMockLogstream()
+    protected function getMockLogstream(): LogstreamManager
     {
         $logstream = $this
             ->getMockBuilder('AcquiaLogstream\LogstreamManager')
@@ -122,7 +122,7 @@ abstract class AcquiaCliTestCase extends TestCase
     /**
      * Callback for the mock client.
      */
-    public function sendRequestCallback($verb, $path)
+    public function sendRequestCallback(string $verb, string $path): Psr7\Response
     {
         $fixtureMap = self::getFixtureMap();
 
@@ -138,14 +138,20 @@ abstract class AcquiaCliTestCase extends TestCase
             }
             return $this->getPsr7JsonResponseForFixture($fixture);
         }
+
+        return $this->getPsr7GzipResponseForFixture('');
     }
 
     /**
      * Run commands with a mock client.
      *
+     * @param array<int, string> $command
+     * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      * @see bin/acquia-robo.php
      */
-    public function execute($command)
+    public function execute(array $command): string
     {
         // Create an instance of the application and use some default parameters.
         $root = dirname(dirname(__DIR__));
@@ -159,6 +165,7 @@ abstract class AcquiaCliTestCase extends TestCase
 
         // Override the LogstreamManager with a mock in the container.
         $container = Robo::getContainer();
+        /** @phpstan-ignore-next-line */
         $container->extend('logstream')->setConcrete($this->logstream::class);
         $parameterInjection = $container->get('parameterInjection');
         $parameterInjection->register('AcquiaLogstream\LogstreamManager', new AcquiaCliInjector());
@@ -174,7 +181,10 @@ abstract class AcquiaCliTestCase extends TestCase
         return $output->fetch();
     }
 
-    public static function getFixtureMap()
+    /**
+     * @return array<array<string>>
+     */
+    public static function getFixtureMap(): array
     {
         return [
             '/account' => [
@@ -453,7 +463,13 @@ abstract class AcquiaCliTestCase extends TestCase
         ];
     }
 
-    protected function getPrivateProperty($className, $propertyName)
+    /**
+     * @param class-string|object $className
+     * @param string $propertyName
+     * @return \ReflectionProperty
+     * @throws \ReflectionException
+     */
+    protected function getPrivateProperty($className, string $propertyName): \ReflectionProperty
     {
         $reflector = new \ReflectionClass($className);
         $property = $reflector->getProperty($propertyName);

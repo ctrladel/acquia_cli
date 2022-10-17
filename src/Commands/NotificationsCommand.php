@@ -20,6 +20,7 @@ class NotificationsCommand extends AcquiaCommand
      * Gets all notifications associated with a site.
      *
      * @param string $uuid
+     * @phpstan-param array<mixed> $options
      *
      * @throws \Exception
      * @command notification:list

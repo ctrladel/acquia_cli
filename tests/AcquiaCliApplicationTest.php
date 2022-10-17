@@ -15,7 +15,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
 {
     use LockableTrait;
 
-    private $root;
+    private string $root;
 
     public function setUp(): void
     {
@@ -24,7 +24,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         parent::setUp();
     }
 
-    public function testDefaultConfig()
+    public function testDefaultConfig(): void
     {
         $config = new Config($this->root);
 
@@ -44,7 +44,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->assertEquals($defaultExtraConfig, $config->get('extraconfig'));
     }
 
-    public function testEnvironmentConfig()
+    public function testEnvironmentConfig(): void
     {
         // Set environment variables so we can test configuration overrides.
         putenv('ACQUIACLI_KEY=16fd1cde-1e66-b113-8e98-5ff9d444d54f');
@@ -80,7 +80,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         putenv('ACQUIACLI_TIMEOUT=');
     }
 
-    public function testVersion()
+    public function testVersion(): void
     {
         $versionFile = sprintf('%s/VERSION', $this->root);
         $version = file_get_contents($versionFile);
@@ -91,7 +91,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->assertEquals(sprintf('AcquiaCli %s', $version), $actualValue);
     }
 
-    public function testMissingVersion()
+    public function testMissingVersion(): void
     {
         $versionFile = sprintf('%s/VERSION', $this->root);
         $versionFileBak = sprintf('%s.bak', $versionFile);
@@ -107,7 +107,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         rename($versionFileBak, $versionFile);
     }
 
-    public function testLock()
+    public function testLock(): void
     {
         // Obtain an identical lock and then attempt to run acquiacli.
         $this->lock('acquia-cli-command');
@@ -124,7 +124,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->release();
     }
 
-    public function testClientOptions()
+    public function testClientOptions(): void
     {
         $command = ['application:list', '--sort=label', '--filter=label=@*sample*', '--limit=2'];
 
@@ -140,7 +140,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->assertSame($expectedQuery, $actualQuery);
     }
 
-    public function testClientUserAgent()
+    public function testClientUserAgent(): void
     {
         $command = ['application:list'];
 
@@ -159,7 +159,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->assertSame($expectedUserAgent, $actualUserAgent);
     }
 
-    public function testRealm()
+    public function testRealm(): void
     {
         $command = ['application:info', 'devcloud2', '--realm=devcloud'];
         $response = $this->execute($command);
@@ -167,7 +167,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $this->assertStringContainsString('24-a47ac10b-58cc-4372-a567-0e02b2c3d470', $response);
     }
 
-    public function testVerbosity()
+    public function testVerbosity(): void
     {
         $config = new Config($this->root);
         $command = ['acquiacli', '--yes', '--no-wait', 'domain:delete', 'devcloud:devcloud2', 'test', 'domain'];
@@ -193,7 +193,7 @@ EXPECTED;
         \Robo\Robo::unsetContainer();
     }
 
-    public function testCloudApi()
+    public function testCloudApi(): void
     {
 
         $config = new Config($this->root);
@@ -233,7 +233,7 @@ EXPECTED;
         );
     }
 
-    public function testWaitForNotifications()
+    public function testWaitForNotifications(): void
     {
         $config = new Config($this->root);
 

@@ -88,26 +88,26 @@ jobs:
     - name: Run test suite
       run: composer run-script unit
 
-    - name: Remove requirement for pcov/clobber
-      run: composer remove pcov/clobber
-
-    - name: Install Phar tools and build deployment artefact.
-      env:
-        COMPOSER_DISCARD_CHANGES: true      
-      run: |
-        composer phar:install-tools
-        composer install --prefer-dist --no-dev --no-interaction
-        composer phar:build
-
-    - name: Run the phar
-      run: php acquiacli.phar
-
-    - name: Upload artefact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ runner.os }}-php-${{ matrix.php-versions }}-acquiacli.phar
-        path: acquiacli.phar
-        if-no-files-found: error
+#    - name: Remove requirement for pcov/clobber
+#      run: composer remove pcov/clobber
+#
+#    - name: Install Phar tools and build deployment artefact.
+#      env:
+#        COMPOSER_DISCARD_CHANGES: true
+#      run: |
+#        composer phar:install-tools
+#        composer install --prefer-dist --no-dev --no-interaction
+#        composer phar:build
+#
+#    - name: Run the phar
+#      run: php acquiacli.phar
+#
+#    - name: Upload artefact
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: ${{ runner.os }}-php-${{ matrix.php-versions }}-acquiacli.phar
+#        path: acquiacli.phar
+#        if-no-files-found: error
 
     - name: Upload code coverage
       uses: actions/upload-artifact@v2

@@ -108,16 +108,16 @@ jobs:
 #        name: ${{ runner.os }}-php-${{ matrix.php-versions }}-acquiacli.phar
 #        path: acquiacli.phar
 #        if-no-files-found: error
-
-    - name: Upload code coverage
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ runner.os }}-php-${{ matrix.php-versions }}-phpunit.html
-        path: ./tests/logs/phpunit.html
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./tests/logs/clover.xml
-        name: acquia-cli-codecov
-        fail_ci_if_error: true%
+#
+#    - name: Upload code coverage
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: ${{ runner.os }}-php-${{ matrix.php-versions }}-phpunit.html
+#        path: ./tests/logs/phpunit.html
+#
+#    - name: Upload coverage to Codecov
+#      uses: codecov/codecov-action@v1
+#      with:
+#        file: ./tests/logs/clover.xml
+#        name: acquia-cli-codecov
+#        fail_ci_if_error: true%

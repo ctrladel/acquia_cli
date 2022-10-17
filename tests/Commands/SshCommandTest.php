@@ -8,14 +8,19 @@ class SshCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider sshProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testSshInfo($command, $expected)
+    public function testSshInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function sshProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function sshProvider(): array
     {
 
         $infoResponse = <<<INFO

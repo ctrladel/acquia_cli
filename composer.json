@@ -51,11 +51,14 @@
         "cbf": "phpcbf --standard=PSR12 -n src tests",
         "unit": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --configuration=phpunit.xml --testdox",
         "stan": "phpstan analyse --level 7 src tests",
-        "test": [
+        "static-analysis": [
             "@lint",
-            "@unit",
             "@cs",
             "@stan"
+        ],
+        "test": [
+            "@static-analysis",
+            "@unit"
         ],
         "release": [
             "release VERSION"

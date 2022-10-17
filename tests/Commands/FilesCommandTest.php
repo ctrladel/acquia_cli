@@ -8,14 +8,19 @@ class FilesCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider filesProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testFilesCommands($command, $expected)
+    public function testFilesCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function filesProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function filesProvider(): array
     {
 
         return [

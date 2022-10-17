@@ -8,14 +8,19 @@ class RolesCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider roleProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testRoleCommands($command, $expected)
+    public function testRoleCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function roleProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function roleProvider(): array
     {
 
         $roleList = <<<TABLE

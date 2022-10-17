@@ -24,7 +24,7 @@ class OrganizationsCommand extends AcquiaCommand
      * @command organization:list
      * @aliases org:list,o:l
      */
-    public function showOrganizations(Organizations $organizationsAdapter)
+    public function showOrganizations(Organizations $organizationsAdapter): void
     {
         $organizations = $organizationsAdapter->getAll();
 
@@ -32,7 +32,7 @@ class OrganizationsCommand extends AcquiaCommand
         $table->setHeaders(['UUID', 'Organization', 'Owner', 'Subs', 'Admins', 'Users', 'Teams', 'Roles']);
         foreach ($organizations as $organization) {
             /**
-             * @var OrganizationResponse $permission
+             * @var OrganizationResponse $organization
              */
             $table
                 ->addRows(
@@ -40,6 +40,7 @@ class OrganizationsCommand extends AcquiaCommand
                     [
                         $organization->uuid,
                         $organization->name,
+                        /** @phpstan-ignore-next-line */
                         $organization->owner->username,
                         $organization->subscriptions_total,
                         $organization->admins_total,
@@ -62,7 +63,7 @@ class OrganizationsCommand extends AcquiaCommand
      * @command organization:applications
      * @aliases org:apps,o:a
      */
-    public function organizationApplications(Organizations $organizationsAdapter, $organization)
+    public function organizationApplications(Organizations $organizationsAdapter, $organization): void
     {
         $organization = $this->cloudapiService->getOrganization($organization);
         $applications = $organizationsAdapter->getApplications($organization->uuid);
@@ -80,7 +81,9 @@ class OrganizationsCommand extends AcquiaCommand
                     [
                         $application->uuid,
                         $application->name,
+                        /** @phpstan-ignore-next-line */
                         $application->hosting->type,
+                        /** @phpstan-ignore-next-line */
                         $application->hosting->id,
                     ],
                     ]
@@ -98,7 +101,7 @@ class OrganizationsCommand extends AcquiaCommand
      * @command organization:teams
      * @aliases org:teams,o:t
      */
-    public function organizationTeams(Organizations $organizationsAdapter, $organization)
+    public function organizationTeams(Organizations $organizationsAdapter, $organization): void
     {
         $organization = $this->cloudapiService->getOrganization($organization);
         $teams = $organizationsAdapter->getTeams($organization->uuid);
@@ -132,7 +135,7 @@ class OrganizationsCommand extends AcquiaCommand
      * @command organization:members
      * @aliases org:members,o:m
      */
-    public function members(Organizations $organizationsAdapter, $organization)
+    public function members(Organizations $organizationsAdapter, $organization): void
     {
         $organization = $this->cloudapiService->getOrganization($organization);
         $organizationUuid = $organization->uuid;

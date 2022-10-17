@@ -5,7 +5,6 @@ namespace AcquiaCli\Commands;
 use AcquiaCli\Cli\CloudApi;
 use AcquiaCloudApi\Endpoints\Insights;
 use AcquiaCloudApi\Response\InsightCountResponse;
-use AcquiaCloudApi\Response\InsightModuleResponse;
 use AcquiaCloudApi\Response\InsightResponse;
 use Symfony\Component\Console\Helper\Table;
 
@@ -20,11 +19,12 @@ class InsightsCommand extends AcquiaCommand
      * Shows Insights information for specified applications.
      *
      * @param string $uuid
-     * @param string $environment
+     * @param string|null $environment
      *
+     * @throws \Exception
      * @command insights:info
      */
-    public function insightsInfo(CloudApi $cloudapi, Insights $insightsAdapter, $uuid, $environment = null)
+    public function insightsInfo(CloudApi $cloudapi, Insights $insightsAdapter, string $uuid, ?string $environment = null): void
     {
 
         if (null === $environment) {
@@ -45,12 +45,12 @@ class InsightsCommand extends AcquiaCommand
     /**
      * Shows insights alerts for specified applications.
      *
-     * @param  string $siteId
+     * @param string $siteId
      * @option failed Whether to only show failed insight checks.
      *
      * @command insights:alerts:list
      */
-    public function insightsAlertsList(Insights $insightsAdapter, $siteId, $options = ['failed' => null])
+    public function insightsAlertsList(Insights $insightsAdapter, string $siteId, array $options = ['failed' => null]): void
     {
         $alerts = $insightsAdapter->getAllAlerts($siteId);
 
@@ -62,10 +62,6 @@ class InsightsCommand extends AcquiaCommand
         $table->setColumnStyle(4, 'center-align');
 
         foreach ($alerts as $alert) {
-            /**
-             * @var InsightModuleResponse $alert
-             */
-
             if ($options['failed'] && !$alert->failed_value) {
                 continue;
             }
@@ -77,7 +73,9 @@ class InsightsCommand extends AcquiaCommand
                         $alert->uuid,
                         $alert->name,
                         $alert->failed_value ? '✓' : '',
+                        /** @phpstan-ignore-next-line */
                         $alert->flags->resolved ? '✓' : '',
+                        /** @phpstan-ignore-next-line */
                         $alert->flags->ignored ? '✓' : '',
                     ],
                     ]
@@ -95,7 +93,7 @@ class InsightsCommand extends AcquiaCommand
      *
      * @command insights:alerts:get
      */
-    public function insightsAlertsGet(Insights $insightsAdapter, $siteId, $alertUuid)
+    public function insightsAlertsGet(Insights $insightsAdapter, string $siteId, string $alertUuid): void
     {
         $alert = $insightsAdapter->getAlert($siteId, $alertUuid);
 
@@ -107,7 +105,7 @@ class InsightsCommand extends AcquiaCommand
     /**
      * Shows insights alerts for specified applications.
      *
-     * @param  string $siteId
+     * @param string $siteId
      * @option enabled Whether to only show enabled modules.
      * @option upgradeable Whether to only show modules that need an upgrade.
      *
@@ -115,9 +113,9 @@ class InsightsCommand extends AcquiaCommand
      */
     public function insightsModules(
         Insights $insightsAdapter,
-        $siteId,
-        $options = ['enabled', 'upgradeable']
-    ) {
+        string $siteId,
+        array $options = ['enabled', 'upgradeable']
+    ): void {
         $modules = $insightsAdapter->getModules($siteId);
 
         $output = $this->output();
@@ -127,10 +125,7 @@ class InsightsCommand extends AcquiaCommand
         $table->setColumnStyle(3, 'center-align');
 
         foreach ($modules as $module) {
-            /**
-             * @var InsightModuleResponse $module
-             */
-
+            /** @phpstan-ignore-next-line */
             if ($options['enabled'] && !$module->flags->enabled) {
                 continue;
             }
@@ -144,6 +139,7 @@ class InsightsCommand extends AcquiaCommand
                     [
                         $module->name,
                         $module->version,
+                        /** @phpstan-ignore-next-line */
                         $module->flags->enabled ? '✓' : '',
                         array_search('upgradeable', $module->tags, true) !== false ? '✓' : '',
                     ],
@@ -157,9 +153,10 @@ class InsightsCommand extends AcquiaCommand
     /**
      * @param InsightResponse $insight
      */
-    private function renderInsightInfo(InsightResponse $insight)
+    private function renderInsightInfo(InsightResponse $insight): void
     {
         $title = $insight->label . ' (' . $insight->hostname . ')';
+        /** @phpstan-ignore-next-line */
         $score = $insight->scores->insight;
 
         if ($score >= 85) {
@@ -179,6 +176,7 @@ class InsightsCommand extends AcquiaCommand
         $output = $this->output();
         $table = new Table($output);
         $table->setHeaders(['Type', 'Pass', 'Fail', 'Ignored', 'Total', '%']);
+        /** @phpstan-ignore-next-line */
         foreach ($insight->counts as $type => $count) {
             /**
              * @var InsightCountResponse $count

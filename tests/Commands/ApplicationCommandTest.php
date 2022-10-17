@@ -8,14 +8,19 @@ class ApplicationCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider applicationProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testApplicationCommands($command, $expected)
+    public function testApplicationCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function applicationProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function applicationProvider(): array
     {
         $getAllApplications = <<<TABLE
 +----------------------+--------------------------------------+--------------------+

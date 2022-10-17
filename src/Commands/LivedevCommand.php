@@ -17,9 +17,10 @@ class LivedevCommand extends EnvironmentsCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command livedev:enable
      */
-    public function acquiaLivedevEnable(Environments $environmentsAdapter, $uuid, $environment)
+    public function acquiaLivedevEnable(Environments $environmentsAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->say(sprintf('Enabling livedev for %s environment', $environment->label));
@@ -34,7 +35,7 @@ class LivedevCommand extends EnvironmentsCommand
      *
      * @command livedev:disable
      */
-    public function acquiaLivedevDisable(Environments $environmentsAdapter, $uuid, $environment)
+    public function acquiaLivedevDisable(Environments $environmentsAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm('Are you sure you want to disable livedev? Uncommitted work will be lost.')) {

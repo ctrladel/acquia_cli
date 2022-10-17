@@ -16,10 +16,11 @@ class FilesCommand extends AcquiaCommand
      * @param string $environmentFrom
      * @param string $environmentTo
      *
+     * @throws \Exception
      * @command files:copy
      * @aliases f:c
      */
-    public function filesCopy($uuid, $environmentFrom, $environmentTo)
+    public function filesCopy(string $uuid, string $environmentFrom, string $environmentTo): void
     {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);

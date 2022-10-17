@@ -20,10 +20,11 @@ class VariablesCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command variable:list
      * @aliases v:l
      */
-    public function variablesList(CloudApi $cloudapi, Variables $variablesAdapter, $uuid, $environment)
+    public function variablesList(CloudApi $cloudapi, Variables $variablesAdapter, string $uuid, string $environment): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
         $variables = $variablesAdapter->getAll($environment->uuid);
@@ -57,10 +58,11 @@ class VariablesCommand extends AcquiaCommand
      * @param string $environment
      * @param string $name
      *
+     * @throws \Exception
      * @command variable:info
      * @aliases v:i
      */
-    public function variableInfo(CloudApi $cloudapi, Variables $variablesAdapter, $uuid, $environment, $name)
+    public function variableInfo(CloudApi $cloudapi, Variables $variablesAdapter, string $uuid, string $environment, string $name): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
 
@@ -79,7 +81,7 @@ class VariablesCommand extends AcquiaCommand
      * @command variable:create
      * @aliases variable:add,v:a
      */
-    public function variableCreate(CloudApi $cloudapi, Variables $variablesAdapter, $uuid, $environment, $name, $value)
+    public function variableCreate(CloudApi $cloudapi, Variables $variablesAdapter, string $uuid, string $environment, string $name, string $value): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
 
@@ -98,7 +100,7 @@ class VariablesCommand extends AcquiaCommand
      * @command variable:delete
      * @aliases variable:remove,v:d,v:r
      */
-    public function variableDelete(CloudApi $cloudapi, Variables $variablesAdapter, $uuid, $environment, $name)
+    public function variableDelete(CloudApi $cloudapi, Variables $variablesAdapter, string $uuid, string $environment, string $name): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
 
@@ -120,7 +122,7 @@ class VariablesCommand extends AcquiaCommand
      * @command variable:update
      * @aliases v:u
      */
-    public function variableUpdate(CloudApi $cloudapi, Variables $variablesAdapter, $uuid, $environment, $name, $value)
+    public function variableUpdate(CloudApi $cloudapi, Variables $variablesAdapter, string $uuid, string $environment, string $name, string $value): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
 

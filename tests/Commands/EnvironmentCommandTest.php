@@ -8,14 +8,19 @@ class EnvironmentCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider environmentProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testEnvironmentCommands($command, $expected)
+    public function testEnvironmentCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function environmentProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function environmentProvider(): array
     {
         $getAllEnvironments = <<<TABLE
 +-----------------------------------------+------+------------+----------------------------------+

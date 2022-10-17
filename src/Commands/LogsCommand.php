@@ -22,9 +22,8 @@ class LogsCommand extends AcquiaCommand
     /**
      * Streams logs from an environment.
      *
-     * @param  string $uuid
-     * @param  string $environment
-     * @param  array  $opts
+     * @param string $uuid
+     * @param string $environment
      * @option $colourise Colourise the output
      * @option $logtypes  Filter to specific log types
      * @option $servers   Filter to specific servers
@@ -35,17 +34,18 @@ class LogsCommand extends AcquiaCommand
         CloudApi $cloudapi,
         LogstreamManager $logstream,
         Logs $logsAdapter,
-        $uuid,
-        $environment,
-        $opts = [
+        string $uuid,
+        string $environment,
+        array $opts = [
             'colourise|c' => false,
             'logtypes|t' => [],
             'servers' => []
         ]
-    ) {
+    ): void {
 
-        $environment = $cloudapi->getEnvironment($uuid, $environment);
-        $stream = $logsAdapter->stream($environment->uuid);
+        $environmentResponse = $cloudapi->getEnvironment($uuid, $environment);
+        $stream = $logsAdapter->stream($environmentResponse->uuid);
+        /** @phpstan-ignore-next-line */
         $logstream->setParams($stream->logstream->params);
         if ($opts['colourise']) {
             $logstream->setColourise(true);
@@ -63,10 +63,10 @@ class LogsCommand extends AcquiaCommand
      *
      * @command log:list
      */
-    public function logList(CloudApi $cloudapi, Logs $logsAdapter, $uuid, $environment)
+    public function logList(CloudApi $cloudapi, Logs $logsAdapter, string $uuid, string $environment): void
     {
-        $environment = $cloudapi->getEnvironment($uuid, $environment);
-        $logs = $logsAdapter->getAll($environment->uuid);
+        $environmentResponse = $cloudapi->getEnvironment($uuid, $environment);
+        $logs = $logsAdapter->getAll($environmentResponse->uuid);
 
         $output = $this->output();
         $table = new Table($output);
@@ -79,6 +79,7 @@ class LogsCommand extends AcquiaCommand
                     [
                         $log->type,
                         $log->label,
+                        /** @phpstan-ignore-next-line */
                         $log->flags->available ? '✓' : ' ',
                     ],
                     ]
@@ -96,7 +97,7 @@ class LogsCommand extends AcquiaCommand
      *
      * @command log:snapshot
      */
-    public function logSnapshot(CloudApi $cloudapi, Logs $logsAdapter, $uuid, $environment, $logType)
+    public function logSnapshot(CloudApi $cloudapi, Logs $logsAdapter, string $uuid, string $environment, string $logType): void
     {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
         $this->say(sprintf('Creating snapshot for %s in %s environment', $logType, $environment->label));
@@ -109,6 +110,7 @@ class LogsCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $logType
+     * @throws \Exception
      *
      * @command log:download
      * @option  $path Select a path to download the log to. If omitted, the system temp directory will be used.
@@ -117,11 +119,11 @@ class LogsCommand extends AcquiaCommand
     public function logDownload(
         CloudApi $cloudapi,
         Logs $logsAdapter,
-        $uuid,
-        $environment,
-        $logType,
-        $opts = ['path' => null, 'filename' => null]
-    ) {
+        string $uuid,
+        string $environment,
+        string $logType,
+        array $opts = ['path' => null, 'filename' => null]
+    ): void {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
         $log = $logsAdapter->download($environment->uuid, $logType);
 

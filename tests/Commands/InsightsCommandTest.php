@@ -8,14 +8,19 @@ class InsightsCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider insightsProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testInsightsCommands($command, $expected)
+    public function testInsightsCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function insightsProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function insightsProvider(): array
     {
 
         // phpcs:disable Generic.Files.LineLength.TooLong

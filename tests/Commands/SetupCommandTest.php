@@ -6,7 +6,7 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class SetupCommandTest extends AcquiaCliTestCase
 {
-    public function testSetupConfigViewDefault()
+    public function testSetupConfigViewDefault(): void
     {
         $command = ['setup:config:view'];
         $defaultConfiguration = <<< DEFAULT
@@ -41,7 +41,7 @@ DEFAULT;
         $this->assertSame($defaultConfiguration, $actualResponse);
     }
 
-    public function testSetupConfigViewOverwritten()
+    public function testSetupConfigViewOverwritten(): void
     {
         $command = ['setup:config:view'];
         $overwrittenConfiguration = <<< OVERWRITTEN

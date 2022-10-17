@@ -85,7 +85,7 @@ abstract class AcquiaCommand extends Tasks
                 $this->say('Ignoring confirmation question as --yes option passed.');
             }
 
-            return true;
+            return 'true';
         }
 
         return parent::confirm($question, $default);
@@ -98,7 +98,7 @@ abstract class AcquiaCommand extends Tasks
      *
      * @param CommandData $commandData
      */
-    public function validateApiOptionsHook(CommandData $commandData)
+    public function validateApiOptionsHook(CommandData $commandData): void
     {
         if ($limit = $commandData->input()->getOption('limit')) {
             $this->cloudapi->addQuery('limit', $limit);
@@ -119,8 +119,9 @@ abstract class AcquiaCommand extends Tasks
      *
      * @param InputInterface $input
      * @param AnnotationData $annotationData
+     * @throws \Exception
      */
-    public function initUuidHook(InputInterface $input, AnnotationData $annotationData)
+    public function initUuidHook(InputInterface $input, AnnotationData $annotationData): void
     {
         if ($input->hasArgument('uuid')) {
             $uuid = $input->getArgument('uuid');
@@ -144,10 +145,10 @@ abstract class AcquiaCommand extends Tasks
     /**
      * Waits for a notification to complete.
      *
-     * @param  OperationResponse $response
+     * @param \AcquiaCloudApi\Response\OperationResponse $response
      * @throws \Exception
      */
-    protected function waitForNotification($response)
+    protected function waitForNotification(OperationResponse $response): bool
     {
         if ($this->input()->getOption('no-wait')) {
             if ($this->output->isVerbose()) {
@@ -156,7 +157,9 @@ abstract class AcquiaCommand extends Tasks
             return true;
         }
 
+        /** @phpstan-ignore-next-line */
         $notificationArray = explode('/', $response->links->notification->href);
+        /** @phpstan-ignore-next-line */
         if (empty($notificationArray)) {
             throw new \Exception('Notification UUID not found.');
         }
@@ -189,7 +192,6 @@ abstract class AcquiaCommand extends Tasks
                 case self::TASKFAILED:
                     // If there's one failure we should throw an exception
                     throw new \Exception('Acquia task failed.');
-                    break(2);
                     // If tasks are started or in progress, we should continue back
                     // to the top of the loop and wait until tasks are complete.
                 case self::TASKSTARTED:
@@ -200,7 +202,6 @@ abstract class AcquiaCommand extends Tasks
                     break(2);
                 default:
                     throw new \Exception('Unknown notification status.');
-                    break(2);
             }
 
             // Timeout if the command exceeds the configured timeout threshold.
@@ -221,13 +222,14 @@ abstract class AcquiaCommand extends Tasks
     /**
      * Copy all DBs from one environment to another.
      *
-     * @param string              $uuid
+     * @param string $uuid
      * @param EnvironmentResponse $environmentFrom
      * @param EnvironmentResponse $environmentTo
-     * @param null|string         $dbName          The DB to move, if null move all DBs.
-     * @param boolean             $backup          Whether to backup DBs first.
+     * @param string|null $dbName The DB to move, if null move all DBs.
+     * @param boolean $backup Whether to backup DBs first.
+     * @throws \Exception
      */
-    protected function moveDbs($uuid, $environmentFrom, $environmentTo, $dbName = null, $backup = true)
+    protected function moveDbs(string $uuid, EnvironmentResponse $environmentFrom, EnvironmentResponse $environmentTo, ?string $dbName = null, ?bool $backup = true): void
     {
         if (null !== $dbName) {
             $this->cloudapi->addQuery('filter', "name=${dbName}");
@@ -262,7 +264,7 @@ abstract class AcquiaCommand extends Tasks
      * @param string              $uuid
      * @param EnvironmentResponse $environment
      */
-    protected function backupAllEnvironmentDbs($uuid, $environment)
+    protected function backupAllEnvironmentDbs(string $uuid, EnvironmentResponse $environment): void
     {
         $dbAdapter = new Databases($this->cloudapi);
         $databases = $dbAdapter->getAll($uuid);
@@ -272,11 +274,12 @@ abstract class AcquiaCommand extends Tasks
     }
 
     /**
-     * @param string              $uuid
+     * @param string $uuid
      * @param EnvironmentResponse $environment
-     * @param DatabaseResponse    $database
+     * @param DatabaseResponse $database
+     * @throws \Exception
      */
-    protected function backupDb($uuid, $environment, $database)
+    protected function backupDb(string $uuid, EnvironmentResponse $environment, DatabaseResponse $database): void
     {
         // Run database backups.
         $this->say(sprintf('Backing up DB (%s) on %s', $database->name, $environment->label));
@@ -286,11 +289,12 @@ abstract class AcquiaCommand extends Tasks
     }
 
     /**
-     * @param string              $uuid
+     * @param string $uuid
      * @param EnvironmentResponse $environmentFrom
      * @param EnvironmentResponse $environmentTo
+     * @throws \Exception
      */
-    protected function copyFiles($uuid, $environmentFrom, $environmentTo)
+    protected function copyFiles(string $uuid, EnvironmentResponse $environmentFrom, EnvironmentResponse $environmentTo): void
     {
         $environmentsAdapter = new Environments($this->cloudapi);
         $this->say(sprintf('Copying files from %s to %s', $environmentFrom->label, $environmentTo->label));
@@ -298,14 +302,14 @@ abstract class AcquiaCommand extends Tasks
         $this->waitForNotification($response);
     }
 
-    protected function setTableStyles()
+    protected function setTableStyles(): void
     {
         $tableStyle = new TableStyle();
         $tableStyle->setPadType(STR_PAD_BOTH);
         Table::setStyleDefinition('center-align', $tableStyle);
     }
 
-    protected function getProgressBar()
+    protected function getProgressBar(): ProgressBar
     {
         // Kindly stolen from https://jonczyk.me/2017/09/20/make-cool-progressbar-symfony-command/
         $output = $this->output();

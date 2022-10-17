@@ -8,14 +8,19 @@ class TeamsCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider teamsProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testTeamsCommands($command, $expected)
+    public function testTeamsCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function teamsProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function teamsProvider(): array
     {
 
         return [

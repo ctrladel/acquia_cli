@@ -24,7 +24,7 @@ class CacheClearCommand extends Tasks
      * @command cache:clear
      * @aliases cc,cr
      */
-    public function clearCache()
+    public function clearCache(): mixed
     {
         $cache = new FilesystemAdapter('acquiacli');
         if ($cache->clear()) {

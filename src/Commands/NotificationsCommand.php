@@ -21,6 +21,7 @@ class NotificationsCommand extends AcquiaCommand
      *
      * @param string $uuid
      *
+     * @throws \Exception
      * @command notification:list
      * @option  details Whether to show more details in the notication list (slower).
      * @aliases n:l
@@ -31,9 +32,9 @@ class NotificationsCommand extends AcquiaCommand
         Applications $applicationsAdapter,
         Organizations $organizationsAdapter,
         Notifications $notificationsAdapter,
-        $uuid,
-        $options = ['details']
-    ) {
+        string $uuid,
+        array $options = ['details']
+    ): void {
 
         $notifications = $notificationsAdapter->getAll($uuid);
         $client->clearQuery();
@@ -68,6 +69,7 @@ class NotificationsCommand extends AcquiaCommand
             $table->setHeaders(['UUID', 'User', 'Created', 'Name', 'Status']);
 
             $application = $applicationsAdapter->get($uuid);
+            /** @phpstan-ignore-next-line */
             $orgUuid = $application->organization->uuid;
 
             $admins = $organizationsAdapter->getAdmins($orgUuid);
@@ -102,6 +104,7 @@ class NotificationsCommand extends AcquiaCommand
              * The code here finds the user by UUID and presents their email.
              */
             if ($options['details']) {
+                /** @phpstan-ignore-next-line */
                 $author = $notification->context->author->uuid;
                 $mail = isset($uuids[$author]) ? $uuids[$author] : 'N/A';
                 array_splice($rows, 1, 0, $mail);
@@ -135,7 +138,7 @@ class NotificationsCommand extends AcquiaCommand
         Notifications $notificationsAdapter,
         $uuid,
         $notificationUuid
-    ) {
+    ): void {
 
         $extraConfig = $config->get('extraconfig');
         $tz = $extraConfig['timezone'];
@@ -151,6 +154,7 @@ class NotificationsCommand extends AcquiaCommand
 
         // @TODO Find a way to store the application object earlier to remove this call.
         $application = $applicationsAdapter->get($uuid);
+        /** @phpstan-ignore-next-line */
         $orgUuid = $application->organization->uuid;
         $admins = $organizationsAdapter->getAdmins($orgUuid);
         $members = $organizationsAdapter->getMembers($orgUuid);
@@ -163,6 +167,7 @@ class NotificationsCommand extends AcquiaCommand
             },
             []
         );
+        /** @phpstan-ignore-next-line */
         $author = $notification->context->author->uuid;
         $mail = isset($uuids[$author]) ? $uuids[$author] : 'N/A';
 

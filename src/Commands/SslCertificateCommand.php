@@ -19,15 +19,16 @@ class SslCertificateCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
+     * @throws \Exception
      *
      * @command ssl:list
      */
     public function sslCertificateList(
         OutputInterface $output,
         SslCertificates $certificatesAdapter,
-        $uuid,
-        $environment
-    ) {
+        string $uuid,
+        string $environment
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $certificates = $certificatesAdapter->getAll($environment->uuid);
 
@@ -39,9 +40,7 @@ class SslCertificateCommand extends AcquiaCommand
         $table->setColumnStyle(4, 'center-align');
 
         foreach ($certificates as $certificate) {
-            /**
-             * @var SslCertificateResponse $certificate
-             */
+            /** @var \AcquiaCloudApi\Response\SslCertificateResponse $certificate */
             $table
                 ->addRows(
                     [
@@ -50,6 +49,7 @@ class SslCertificateCommand extends AcquiaCommand
                             $certificate->label,
                             implode("\n", $certificate->domains),
                             $certificate->expires_at,
+                            /** @phpstan-ignore-next-line */
                             $certificate->flags->active ? '✓' : '',
                         ],
                     ]
@@ -73,7 +73,7 @@ class SslCertificateCommand extends AcquiaCommand
         $uuid,
         $environment,
         $certificateId
-    ) {
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $certificate = $certificatesAdapter->get($environment->uuid, $certificateId);
 
@@ -99,7 +99,7 @@ class SslCertificateCommand extends AcquiaCommand
         $uuid,
         $environment,
         $certificateId
-    ) {
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
         if ($this->confirm('Are you sure you want to activate this SSL certificate? Activating this certificate will deactivate all other non-legacy certificates.')) {
@@ -123,7 +123,7 @@ class SslCertificateCommand extends AcquiaCommand
         $uuid,
         $environment,
         $certificateId
-    ) {
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
         if ($this->confirm('Are you sure you want to disable this SSL certificate?')) {
@@ -136,25 +136,28 @@ class SslCertificateCommand extends AcquiaCommand
     /**
      * Install an SSL certificate
      *
-     * @param   string      $uuid
-     * @param   string      $environment
-     * @param   string      $label
-     * @param   string      $certificate The path to the certificate file.
-     * @param   string      $key         The path to the private key file.
-     * @param   null|string $ca          The path to the certificate authority file.
+     * @param string $uuid
+     * @param string $environment
+     * @param string $label
+     * @param string $certificate The path to the certificate file.
+     * @param string $key The path to the private key file.
+     * @param string|null $ca The path to the certificate authority file.
+     * @throws \Exception
+     *
      * @option  activate Enable certification after creation.
+     *
      * @command ssl:create
      */
     public function sslCertificateCreate(
         SslCertificates $certificatesAdapter,
-        $uuid,
-        $environment,
-        $label,
-        $certificate,
-        $key,
-        $ca = null,
-        $options = ['activate']
-    ) {
+        string $uuid,
+        string $environment,
+        string $label,
+        string $certificate,
+        string $key,
+        ?string $ca = null,
+        ?array $options = ['activate']
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
         $confirmMessage = 'Are you sure you want to install this new SSL certificate? (It will not be activated unless the --activate option is passed).';
@@ -193,10 +196,9 @@ class SslCertificateCommand extends AcquiaCommand
 
             if ($options['activate']) {
                 $certificates = $certificatesAdapter->getAll($environment->uuid);
+                /** @var SslCertificateResponse $installedCertificate */
                 foreach ($certificates as $installedCertificate) {
-                    /**
-                     * @var SslCertificateResponse $certificate
-                     */
+                    /** @phpstan-ignore-next-line */
                     if ($installedCertificate->label === $label && !$installedCertificate->flags->active) {
                         $this->say(sprintf('Activating certificate %s on %s environment.', $installedCertificate->label, $environment->label));
                         $response = $certificatesAdapter->enable($environment->uuid, $installedCertificate->id);

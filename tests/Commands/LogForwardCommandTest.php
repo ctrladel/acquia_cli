@@ -8,14 +8,19 @@ class LogForwardCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider logForwardProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testLogForwardInfo($command, $expected)
+    public function testLogForwardInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function logForwardProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function logForwardProvider(): array
     {
 
         $listResponse = <<<LIST

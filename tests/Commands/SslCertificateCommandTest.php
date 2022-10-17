@@ -8,14 +8,19 @@ class SslCertificateCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider sslCertificateProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testSslCertificateInfo($command, $expected)
+    public function testSslCertificateInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function sslCertificateProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function sslCertificateProvider(): array
     {
         $sslCertificatesPath = dirname(__DIR__) . "/Fixtures/SslCertificates";
 

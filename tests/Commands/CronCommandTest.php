@@ -8,14 +8,19 @@ class CronCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider cronProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testCronCommands($command, $expected)
+    public function testCronCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function cronProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function cronProvider(): array
     {
 
         $cronList = <<<LIST

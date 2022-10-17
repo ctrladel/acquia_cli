@@ -15,7 +15,10 @@ use Webmozart\PathUtil\Path;
  */
 class Config extends RoboConfig implements GlobalOptionDefaultValuesInterface
 {
-    public function __construct($root)
+    /**
+     * @param string $root
+     */
+    public function __construct(string $root)
     {
         parent::__construct();
 

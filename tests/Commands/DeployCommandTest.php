@@ -8,14 +8,19 @@ class DeployCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider deployProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testDeployInfo($command, $expected)
+    public function testDeployInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function deployProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function deployProvider(): array
     {
 
         $deployResponseDev = <<<INFO

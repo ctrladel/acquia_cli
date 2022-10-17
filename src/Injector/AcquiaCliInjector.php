@@ -27,10 +27,10 @@ use Consolidation\AnnotatedCommand\ParameterInjector;
 
 class AcquiaCliInjector implements ParameterInjector
 {
-    protected $config;
-    protected $cloudapi;
-    protected $client;
-    protected $logstream;
+    protected mixed $config;
+    protected mixed $cloudapi;
+    protected mixed $client;
+    protected mixed $logstream;
 
     public function __construct()
     {
@@ -40,7 +40,12 @@ class AcquiaCliInjector implements ParameterInjector
         $this->logstream = \Robo\Robo::service('logstream');
     }
 
-    public function get(CommandData $commandData, $interfaceName)
+    /**
+     * @param \Consolidation\AnnotatedCommand\CommandData $commandData
+     * @param string $interfaceName
+     * @return object
+     */
+    public function get(CommandData $commandData, $interfaceName): ?object
     {
         switch ($interfaceName) {
             case 'AcquiaCli\Cli\CloudApi':
@@ -91,6 +96,8 @@ class AcquiaCliInjector implements ParameterInjector
                 return new Organizations($this->client);
             case 'AcquiaCloudApi\Endpoints\Ides':
                 return new Ides($this->client);
+            default:
+                return null;
         }
     }
 }

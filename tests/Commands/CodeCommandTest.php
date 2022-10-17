@@ -8,14 +8,19 @@ class CodeCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider codeProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testCodeCommands($command, $expected)
+    public function testCodeCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function codeProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function codeProvider(): array
     {
 
         $codeList = <<<LIST

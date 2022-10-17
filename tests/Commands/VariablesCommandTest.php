@@ -8,14 +8,19 @@ class VariablesCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider variablesProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testVariablesCommands($command, $expected)
+    public function testVariablesCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function variablesProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function variablesProvider(): array
     {
 
         $variablesList = <<<TABLE

@@ -20,7 +20,7 @@ class DbCommand extends AcquiaCommand
      * @command database:list
      * @aliases db:list
      */
-    public function dbList(Databases $databaseAdapter, $uuid)
+    public function dbList(Databases $databaseAdapter, string $uuid): void
     {
         $databases = $databaseAdapter->getAll($uuid);
         $table = new Table($this->output());
@@ -44,10 +44,11 @@ class DbCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $dbName
      *
+     * @throws \Exception
      * @command database:create
      * @aliases database:add,db:create,db:add
      */
-    public function dbCreate(Databases $databaseAdapter, $uuid, $dbName)
+    public function dbCreate(Databases $databaseAdapter, string $uuid, string $dbName): void
     {
         $response = $databaseAdapter->create($uuid, $dbName);
         $this->say(sprintf('Creating database (%s)', $dbName));
@@ -60,10 +61,11 @@ class DbCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $dbName
      *
+     * @throws \Exception
      * @command database:delete
      * @aliases database:remove,db:remove,db:delete
      */
-    public function dbDelete(Databases $databaseAdapter, $uuid, $dbName)
+    public function dbDelete(Databases $databaseAdapter, string $uuid, string $dbName): void
     {
         if ($this->confirm('Are you sure you want to delete this database?')) {
             $this->say(sprintf('Deleting database (%s)', $dbName));
@@ -78,10 +80,11 @@ class DbCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $dbName
      *
+     * @throws \Exception
      * @command database:truncate
      * @aliases db:truncate
      */
-    public function dbTruncate(Databases $databaseAdapter, $uuid, $dbName)
+    public function dbTruncate(Databases $databaseAdapter, string $uuid, string $dbName): void
     {
         if ($this->confirm('Are you sure you want to truncate this database?')) {
             $this->say(sprintf('Truncate database (%s)', $dbName));
@@ -97,18 +100,19 @@ class DbCommand extends AcquiaCommand
      * @param string $environmentFrom
      * @param string $environmentTo
      * @param string $dbName
+     * @throws \Exception
      *
      * @command database:copy
      * @option  no-backup Do not backup the databases on production.
      * @aliases db:copy
      */
     public function dbCopy(
-        $uuid,
-        $environmentFrom,
-        $environmentTo,
-        $dbName,
-        $options = ['no-backup']
-    ) {
+        string $uuid,
+        string $environmentFrom,
+        string $environmentTo,
+        string $dbName,
+        array $options = ['no-backup']
+    ): void {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);
 
@@ -136,17 +140,18 @@ class DbCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environmentFrom
      * @param string $environmentTo
+     * @throws \Exception
      *
      * @command database:copy:all
      * @option  no-backup Do not backup the databases on production.
      * @aliases db:copy:all
      */
     public function dbCopyAll(
-        $uuid,
-        $environmentFrom,
-        $environmentTo,
-        $options = ['no-backup']
-    ) {
+        string $uuid,
+        string $environmentFrom,
+        string $environmentTo,
+        array $options = ['no-backup']
+    ): void {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);
 

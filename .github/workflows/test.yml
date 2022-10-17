@@ -7,7 +7,42 @@ on:
     branches: [ main ]
 
 jobs:
-  run:
+  static-analysis:
+    runs-on: ubuntu-latest
+    name: Static analysis
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring, intl
+          ini-values: post_max_size=256M, short_open_tag=On
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-source --no-progress --no-suggest --no-interaction
+
+      - name: Run test suite
+        run: composer run-script static-analysis
+
+      - name: Run test suite
+        run: composer run-script test
+  unit-tests:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -25,7 +60,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, intl
         ini-values: post_max_size=256M, short_open_tag=On
-
 
     - name: Setup PHP with pecl extension
       uses: shivammathur/setup-php@v2
@@ -51,7 +85,7 @@ jobs:
       run: composer install --prefer-source --no-progress --no-suggest --no-interaction
 
     - name: Run test suite
-      run: composer run-script test
+      run: composer run-script unit
 
     - name: Remove requirement for pcov/clobber
       run: composer remove pcov/clobber

@@ -8,14 +8,19 @@ class LiveDevCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider liveDevProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testLiveDevInfo($command, $expected)
+    public function testLiveDevInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function liveDevProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function liveDevProvider(): array
     {
 
         return [

@@ -22,7 +22,7 @@ class ApplicationsCommand extends AcquiaCommand
      * @command application:list
      * @aliases app:list,a:l
      */
-    public function applications(Applications $applicationsAdapter)
+    public function applications(Applications $applicationsAdapter): void
     {
 
         $applications = $applicationsAdapter->getAll();
@@ -34,11 +34,12 @@ class ApplicationsCommand extends AcquiaCommand
             $table
                 ->addRows(
                     [
-                    [
-                        $application->name,
-                        $application->uuid,
-                        $application->hosting->id,
-                    ],
+                        [
+                            $application->name,
+                            $application->uuid,
+                            /** @phpstan-ignore-next-line */
+                            $application->hosting->id,
+                        ],
                     ]
                 );
         }
@@ -57,8 +58,8 @@ class ApplicationsCommand extends AcquiaCommand
         OutputInterface $output,
         Environments $environmentsAdapter,
         Databases $databasesAdapter,
-        $uuid
-    ) {
+        string $uuid
+    ): void {
         $environments = $environmentsAdapter->getAll($uuid);
 
         $table = new Table($output);
@@ -79,10 +80,12 @@ class ApplicationsCommand extends AcquiaCommand
              */
 
             $environmentName = sprintf('%s (%s)', $environment->label, $environment->name);
+            /** @phpstan-ignore-next-line */
             if ($environment->flags->livedev) {
                 $environmentName = sprintf('💻  %s', $environmentName);
             }
 
+            /** @phpstan-ignore-next-line */
             if ($environment->flags->production_mode) {
                 $environmentName = sprintf('🔒  %s', $environmentName);
             }
@@ -90,13 +93,14 @@ class ApplicationsCommand extends AcquiaCommand
             $table
                 ->addRows(
                     [
-                    [
-                        $environmentName,
-                        $environment->uuid,
-                        $environment->vcs->path,
-                        implode("\n", $environment->domains),
-                        implode("\n", $dbNames)
-                    ],
+                        [
+                            $environmentName,
+                            $environment->uuid,
+                            /** @phpstan-ignore-next-line */
+                            $environment->vcs->path,
+                            implode("\n", $environment->domains),
+                            implode("\n", $dbNames)
+                        ],
                     ]
                 );
         }
@@ -117,7 +121,7 @@ class ApplicationsCommand extends AcquiaCommand
      * @command application:tags
      * @aliases app:tags
      */
-    public function applicationsTags(OutputInterface $output, Applications $applicationsAdapter, $uuid)
+    public function applicationsTags(OutputInterface $output, Applications $applicationsAdapter, string $uuid): void
     {
         $tags = $applicationsAdapter->getAllTags($uuid);
 
@@ -127,10 +131,10 @@ class ApplicationsCommand extends AcquiaCommand
             $table
                 ->addRows(
                     [
-                    [
-                        $tag->name,
-                        $tag->color,
-                    ],
+                        [
+                            $tag->name,
+                            $tag->color,
+                        ],
                     ]
                 );
         }
@@ -144,10 +148,11 @@ class ApplicationsCommand extends AcquiaCommand
      * @param string $name
      * @param string $color
      *
+     * @throws \Exception
      * @command application:tag:create
      * @aliases app:tag:create
      */
-    public function applicationTagCreate(Applications $applicationsAdapter, $uuid, $name, $color)
+    public function applicationTagCreate(Applications $applicationsAdapter, string $uuid, string $name, string $color): void
     {
         $this->say(sprintf('Creating application tag %s:%s', $name, $color));
         $response = $applicationsAdapter->createTag($uuid, $name, $color);
@@ -160,10 +165,11 @@ class ApplicationsCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $name
      *
+     * @throws \Exception
      * @command application:tag:delete
      * @aliases app:tag:delete
      */
-    public function applicationTagDelete(Applications $applicationsAdapter, $uuid, $name)
+    public function applicationTagDelete(Applications $applicationsAdapter, string $uuid, string $name): void
     {
         $this->say(sprintf('Deleting application tag %s', $name));
         $response = $applicationsAdapter->deleteTag($uuid, $name);
@@ -179,7 +185,7 @@ class ApplicationsCommand extends AcquiaCommand
      * @command application:rename
      * @aliases app:rename,a:rename
      */
-    public function applicationRename(Applications $applicationsAdapter, $uuid, $name)
+    public function applicationRename(Applications $applicationsAdapter, string $uuid, string $name): void
     {
         $this->say(sprintf('Renaming application to %s', $name));
         $environments = $applicationsAdapter->rename($uuid, $name);

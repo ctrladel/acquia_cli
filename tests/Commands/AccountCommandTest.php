@@ -32,14 +32,19 @@ class AccountCommandTest extends AcquiaCliTestCase
 
     /**
      * @dataProvider accountProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testAccountInfo($command, $expected)
+    public function testAccountInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function accountProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function accountProvider(): array
     {
 
         $infoResponse = <<<INFO

@@ -21,7 +21,7 @@ class SshCommand extends EnvironmentsCommand
      *
      * @command ssh:info
      */
-    public function sshInfo(Client $client, Environments $environmentsAdapter, $uuid, $env = null)
+    public function sshInfo(Client $client, Environments $environmentsAdapter, string $uuid, ?string $env = null): void
     {
 
         if (null !== $env) {

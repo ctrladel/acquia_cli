@@ -13,13 +13,14 @@ class DeployCommand extends AcquiaCommand
      * Prepares a non-production environment for a deployment by pulling back
      * the production database and files to the non-prod environment.
      *
-     * @param string      $uuid
-     * @param string      $environmentTo
+     * @param string $uuid
+     * @param string $environmentTo
      * @param string|null $environmentFrom
      *
+     * @throws \Exception
      * @command deploy:prepare
      */
-    public function deployPrepare($uuid, $environmentTo, $environmentFrom = null)
+    public function deployPrepare(string $uuid, string $environmentTo, ?string $environmentFrom = null): void
     {
         if ($environmentTo === 'prod') {
             throw new \Exception('Cannot use deploy:prepare on the production environment');

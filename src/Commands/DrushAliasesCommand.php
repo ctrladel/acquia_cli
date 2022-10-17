@@ -18,8 +18,10 @@ class DrushAliasesCommand extends AccountCommand
      * @option install Install Drush aliases directly without confirmation.
      *
      * @command drush:aliases
+     * @param \AcquiaCloudApi\Endpoints\Account $accountAdapter
+     * @param array<mixed> $options
      */
-    public function downloadDrushAliases(Account $accountAdapter, $options = ['install' => false])
+    public function downloadDrushAliases(Account $accountAdapter, array $options = ['install' => false]): void
     {
         $aliases = $accountAdapter->getDrushAliases();
         $drushArchive = tempnam(sys_get_temp_dir(), 'AcquiaDrushAliases') . '.tar.gz';

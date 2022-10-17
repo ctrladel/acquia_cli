@@ -19,9 +19,10 @@ class CronCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command cron:list
      */
-    public function crons(Crons $cronAdapter, $uuid, $environment)
+    public function crons(Crons $cronAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
@@ -56,13 +57,14 @@ class CronCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $commandString The command to be run on cron wrapped in quotes.
-     * @param string $frequency     The crontab format frequency wrapped in quotes
-     * @param string $label         An optional label for the cron command wrapped in quotes.
+     * @param string $frequency The crontab format frequency wrapped in quotes
+     * @param string $label An optional label for the cron command wrapped in quotes.
      *
+     * @throws \Exception
      * @command cron:create
      * @aliases cron:add
      */
-    public function cronAdd(Crons $cronAdapter, $uuid, $environment, $commandString, $frequency, $label)
+    public function cronAdd(Crons $cronAdapter, string $uuid, string $environment, string $commandString, string $frequency, string $label): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->say(sprintf('Adding new cron task on %s environment', $environment->name));
@@ -75,12 +77,13 @@ class CronCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
-     * @param int    $cronId
+     * @param int $cronId
      *
+     * @throws \Exception
      * @command cron:delete
      * @aliases cron:remove
      */
-    public function cronDelete(Crons $cronAdapter, string $uuid, string $environment, int $cronId)
+    public function cronDelete(Crons $cronAdapter, string $uuid, string $environment, int $cronId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm("Are you sure you want to delete the cron task?")) {
@@ -95,11 +98,12 @@ class CronCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
-     * @param int    $cronId
+     * @param int $cronId
      *
+     * @throws \Exception
      * @command cron:enable
      */
-    public function cronEnable(Crons $cronAdapter, $uuid, $environment, $cronId)
+    public function cronEnable(Crons $cronAdapter, string $uuid, string $environment, int $cronId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->say(sprintf('Enabling cron task %s on %s environment', $cronId, $environment->name));
@@ -112,11 +116,12 @@ class CronCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
-     * @param int    $cronId
+     * @param int $cronId
      *
+     * @throws \Exception
      * @command cron:disable
      */
-    public function cronDisable(Crons $cronAdapter, $uuid, $environment, $cronId)
+    public function cronDisable(Crons $cronAdapter, string $uuid, string $environment, int $cronId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm("Are you sure you want to disable the cron task?")) {
@@ -131,21 +136,25 @@ class CronCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
-     * @param int    $cronId
+     * @param int $cronId
      *
+     * @throws \Exception
      * @command cron:info
      */
-    public function cronInfo(Crons $cronAdapter, $uuid, $environment, $cronId)
+    public function cronInfo(Crons $cronAdapter, string $uuid, string $environment, int $cronId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $cron = $cronAdapter->get($environment->uuid, $cronId);
-
+        /** @phpstan-ignore-next-line */
         $enabled = $cron->flags->enabled ? '✓' : ' ';
+        /** @phpstan-ignore-next-line */
         $system = $cron->flags->system ? '✓' : ' ';
+        /** @phpstan-ignore-next-line */
         $onAnyWeb = $cron->flags->on_any_web ? '✓' : ' ';
 
         $this->say(sprintf('ID: %s', $cron->id));
         $this->say(sprintf('Label: %s', $cron->label));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Environment: %s', $cron->environment->name));
         $this->say(sprintf('Command: %s', $cron->command));
         $this->say(sprintf('Frequency: %s', $this->convertCronFrequencyToCrontab($cron)));
@@ -154,7 +163,7 @@ class CronCommand extends AcquiaCommand
         $this->say(sprintf('On any web: %s', $onAnyWeb));
     }
 
-    protected function convertCronFrequencyToCrontab(CronResponse $cron)
+    protected function convertCronFrequencyToCrontab(CronResponse $cron): string
     {
         $frequency = [
             $cron->minute,

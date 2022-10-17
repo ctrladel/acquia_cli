@@ -8,14 +8,19 @@ class IdesCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider idesProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testIdesCommands($command, $expected)
+    public function testIdesCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function idesProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function idesProvider(): array
     {
 
         $idesTable = <<<TABLE

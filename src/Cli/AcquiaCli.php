@@ -4,8 +4,10 @@ namespace AcquiaCli\Cli;
 
 use AcquiaCli\Injector\AcquiaCliInjector;
 use AcquiaCloudApi\Connector\Client;
+use AcquiaCloudApi\Connector\ClientInterface;
 use AcquiaLogstream\LogstreamManager;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
+use Consolidation\Config\ConfigInterface;
 use League\Container\Container;
 use Robo\Application;
 use Robo\Common\ConfigAwareTrait;
@@ -26,22 +28,24 @@ class AcquiaCli
     use ConfigAwareTrait;
     use LockableTrait;
 
-    private $runner;
+    private RoboRunner $runner;
 
     public const NAME = 'AcquiaCli';
 
     /**
      * AcquiaCli constructor.
      *
-     * @param Config               $config
-     * @param InputInterface|null  $input
+     * @param Config $config
+     * @param \AcquiaCloudApi\Connector\Client $client
+     * @param InputInterface|null $input
      * @param OutputInterface|null $output
+     * @throws \Exception
      */
     public function __construct(
         Config $config,
         Client $client,
-        InputInterface $input = null,
-        OutputInterface $output = null
+        $input = null,
+        $output = null
     ) {
         if ($file = @file_get_contents(dirname(dirname(__DIR__)) . '/VERSION')) {
             $version = trim($file);
@@ -133,7 +137,15 @@ the field should be sorted in a descending order. Not all fields are sortable.'
         $this->runner->setSelfUpdateRepository('typhonius/acquia_cli');
     }
 
-    public function getContainer($input, $output, $application, $config, $client)
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Robo\Application $application
+     * @param \Consolidation\Config\ConfigInterface $config
+     * @param \AcquiaCloudApi\Connector\ClientInterface $client
+     * @return \League\Container\Container
+     */
+    public function getContainer(InputInterface $input, OutputInterface $output, Application $application, ConfigInterface $config, ClientInterface $client): Container
     {
         $container = new Container();
         Robo::configureContainer($container, $application, $config, $input, $output);
@@ -152,7 +164,11 @@ the field should be sorted in a descending order. Not all fields are sortable.'
         return $container;
     }
 
-    public function injectParameters($container)
+    /**
+     * @param Container $container
+     * @return void
+     */
+    public function injectParameters(Container $container): void
     {
         $parameterInjection = $container->get('parameterInjection');
         $parameterInjection->register('AcquiaCli\Cli\CloudApi', new AcquiaCliInjector());

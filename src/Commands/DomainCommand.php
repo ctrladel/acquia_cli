@@ -3,6 +3,7 @@
 namespace AcquiaCli\Commands;
 
 use AcquiaCloudApi\Endpoints\Domains;
+use AcquiaCloudApi\Response\DomainResponse;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,9 +20,10 @@ class DomainCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command domain:list
      */
-    public function domainList(OutputInterface $output, Domains $domainAdapter, $uuid, $environment)
+    public function domainList(OutputInterface $output, Domains $domainAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $domains = $domainAdapter->getAll($environment->uuid);
@@ -41,8 +43,11 @@ class DomainCommand extends AcquiaCommand
                     [
                     [
                         $domain->hostname,
+                        /** @phpstan-ignore-next-line */
                         $domain->flags->default ? '✓' : '',
+                        /** @phpstan-ignore-next-line */
                         $domain->flags->active ? '✓' : '',
+                        /** @phpstan-ignore-next-line */
                         $domain->flags->uptime ? '✓' : '',
                     ],
                     ]
@@ -59,9 +64,10 @@ class DomainCommand extends AcquiaCommand
      * @param string $environment
      * @param string $domain
      *
+     * @throws \Exception
      * @command domain:info
      */
-    public function domainInfo(OutputInterface $output, Domains $domainAdapter, $uuid, $environment, $domain)
+    public function domainInfo(OutputInterface $output, Domains $domainAdapter, string $uuid, string $environment, string $domain): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $domain = $domainAdapter->status($environment->uuid, $domain);
@@ -75,7 +81,9 @@ class DomainCommand extends AcquiaCommand
                 [
                 [
                     $domain->hostname,
+                    /** @phpstan-ignore-next-line */
                     $domain->flags->active ? '✓' : '',
+                    /** @phpstan-ignore-next-line */
                     $domain->flags->dns_resolves ? '✓' : '',
                     implode("\n", $domain->ip_addresses),
                     implode("\n", $domain->cnames),
@@ -93,10 +101,11 @@ class DomainCommand extends AcquiaCommand
      * @param string $environment
      * @param string $domain
      *
+     * @throws \Exception
      * @command domain:create
      * @aliases domain:add
      */
-    public function domainCreate(Domains $domainAdapter, $uuid, $environment, $domain)
+    public function domainCreate(Domains $domainAdapter, string $uuid, string $environment, string $domain): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->say(sprintf('Adding %s to environment %s', $domain, $environment->label));
@@ -114,7 +123,7 @@ class DomainCommand extends AcquiaCommand
      * @command domain:delete
      * @aliases domain:remove
      */
-    public function domainDelete(Domains $domainAdapter, $uuid, $environment, $domain)
+    public function domainDelete(Domains $domainAdapter, string $uuid, string $environment, string $domain): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm('Are you sure you want to remove this domain?')) {
@@ -132,9 +141,10 @@ class DomainCommand extends AcquiaCommand
      * @param string $environmentFrom
      * @param string $environmentTo
      *
+     * @throws \Exception
      * @command domain:move
      */
-    public function domainMove(Domains $domainAdapter, $uuid, $domain, $environmentFrom, $environmentTo)
+    public function domainMove(Domains $domainAdapter, string $uuid, string $domain, string $environmentFrom, string $environmentTo): void
     {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);
@@ -163,10 +173,12 @@ class DomainCommand extends AcquiaCommand
      * Clears varnish cache for a specific domain.
      *
      * @param string $uuid
-     *
+     * @param string $environment
+     * @param string|null $domain
+     * @throws \Exception
      * @command domain:purge
      */
-    public function domainPurge(Domains $domainAdapter, $uuid, $environment, $domain = null)
+    public function domainPurge(Domains $domainAdapter, string $uuid, string $environment, ?string $domain = null): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 

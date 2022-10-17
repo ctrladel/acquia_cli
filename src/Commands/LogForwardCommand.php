@@ -3,6 +3,7 @@
 namespace AcquiaCli\Commands;
 
 use AcquiaCloudApi\Endpoints\LogForwardingDestinations;
+use AcquiaCloudApi\Response\LogForwardingDestinationResponse;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,9 +26,9 @@ class LogForwardCommand extends AcquiaCommand
     public function logforwardList(
         OutputInterface $output,
         LogForwardingDestinations $logForwardAdapter,
-        $uuid,
-        $environment
-    ) {
+        string $uuid,
+        string $environment
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $logForwards = $logForwardAdapter->getAll($environment->uuid);
 
@@ -72,19 +73,24 @@ class LogForwardCommand extends AcquiaCommand
     public function logforwardInfo(
         OutputInterface $output,
         LogForwardingDestinations $logForwardAdapter,
-        $uuid,
-        $environment,
-        $destinationId
-    ) {
+        string $uuid,
+        string $environment,
+        int $destinationId
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $logForward = $logForwardAdapter->get($environment->uuid, $destinationId);
 
         $this->yell(sprintf('Log server address: %s', $logForward->address));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Certificate: %s', $logForward->credentials->certificate->certificate));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Expires at: %s', $logForward->credentials->certificate->expires_at));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Token: %s', $logForward->credentials->token));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Key: %s', $logForward->credentials->key));
         $this->say(sprintf('Sources: %s%s', "\n", implode("\n", $logForward->sources)));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Health: %s', $logForward->health->summary));
     }
 }

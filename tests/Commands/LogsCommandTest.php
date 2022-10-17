@@ -6,7 +6,7 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class LogsCommandTest extends AcquiaCliTestCase
 {
-    public function testDownloadLogsCommands()
+    public function testDownloadLogsCommands(): void
     {
         $command = ['log:download', 'devcloud:devcloud2', 'dev', 'apache-access'];
         $actualResponse = $this->execute($command);
@@ -31,7 +31,7 @@ class LogsCommandTest extends AcquiaCliTestCase
         }
     }
 
-    public function testDownloadLogsCommandsWithOptions()
+    public function testDownloadLogsCommandsWithOptions(): void
     {
         $command = [
             'log:download',
@@ -57,7 +57,7 @@ class LogsCommandTest extends AcquiaCliTestCase
         $this->assertStringContainsString('/tmp/', $matches[2]);
     }
 
-    public function testLogstream()
+    public function testLogstream(): void
     {
 
         $command = [
@@ -96,14 +96,19 @@ class LogsCommandTest extends AcquiaCliTestCase
 
     /**
      * @dataProvider logsProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testLogsCommands($command, $expected)
+    public function testLogsCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function logsProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function logsProvider(): array
     {
 
         $logsList = <<<TABLE

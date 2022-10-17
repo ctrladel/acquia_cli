@@ -3,12 +3,14 @@
 namespace AcquiaCli\Cli;
 
 use AcquiaCloudApi\Connector\Client;
+use AcquiaCloudApi\Connector\ClientInterface;
 use AcquiaCloudApi\Connector\Connector;
 use AcquiaCloudApi\Endpoints\Applications;
 use AcquiaCloudApi\Endpoints\Environments;
 use AcquiaCloudApi\Endpoints\Organizations;
 use AcquiaCloudApi\Response\EnvironmentResponse;
 use AcquiaCloudApi\Response\OrganizationResponse;
+use Consolidation\Config\ConfigInterface;
 use Robo\Config\Config;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -20,17 +22,17 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class CloudApi
 {
-    protected $client;
+    protected ClientInterface $client;
 
-    protected $config;
+    protected ConfigInterface $config;
 
-    public function __construct(Config $config, Client $client)
+    public function __construct(Config $config, ?Client $client)
     {
         $this->config = $config;
         $this->setClient($client);
     }
 
-    public static function createClient(Config $config)
+    public static function createClient(?ConfigInterface $config): Client
     {
 
         $acquia = $config->get('acquia');
@@ -41,9 +43,7 @@ class CloudApi
             'secret' => $acquia['secret'],
             ]
         );
-        /**
-         * @var \AcquiaCloudApi\Connector\Client $cloudapi
-         */
+
         $client = Client::factory($connector);
 
         return $client;
@@ -70,6 +70,7 @@ class CloudApi
                 $applications = $app->getAll();
 
                 foreach ($applications as $application) {
+                    /** @phpstan-ignore-next-line */
                     if ($name === $application->hosting->id) {
                         return $application->uuid;
                     }
@@ -87,7 +88,7 @@ class CloudApi
      * @return EnvironmentResponse
      * @throws \Exception
      */
-    public function getEnvironment($uuid, $environment)
+    public function getEnvironment(string $uuid, string $environment)
     {
         $cacheId = sprintf('environment.%s.%s', $uuid, $environment);
 
@@ -134,8 +135,9 @@ class CloudApi
         throw new \Exception('Unable to find organization from organization name');
     }
 
-    public function getClient()
+    public function getClient(): ClientInterface
     {
+        /** @phpstan-ignore-next-line */
         if (!$this->client) {
             $client = self::createClient($this->config);
             $this->setClient($client);
@@ -143,7 +145,7 @@ class CloudApi
         return $this->client;
     }
 
-    public function setClient($client)
+    public function setClient(ClientInterface $client): void
     {
         $this->client = $client;
     }

@@ -8,14 +8,19 @@ class PermissionsCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider permissionsProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testPermissionsCommands($command, $expected)
+    public function testPermissionsCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function permissionsProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function permissionsProvider(): array
     {
 
         $permissions = <<<LIST

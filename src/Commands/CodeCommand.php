@@ -5,7 +5,6 @@ namespace AcquiaCli\Commands;
 use AcquiaCli\Cli\CloudApi;
 use AcquiaCloudApi\Connector\Client;
 use AcquiaCloudApi\Endpoints\Code;
-use AcquiaCloudApi\Response\BranchResponse;
 use Symfony\Component\Console\Helper\Table;
 
 /**
@@ -23,7 +22,7 @@ class CodeCommand extends AcquiaCommand
      * @command code:list
      * @aliases c:l
      */
-    public function code(Client $client, Code $codeAdapter, $uuid)
+    public function code(Client $client, Code $codeAdapter, $uuid): void
     {
         $branches = $codeAdapter->getAll($uuid);
         $client->clearQuery();
@@ -33,9 +32,7 @@ class CodeCommand extends AcquiaCommand
         $table->setHeaders(['Name', 'Tag']);
 
         foreach ($branches as $branch) {
-            /**
-             * @var BranchResponse $branch
-             */
+            /** @phpstan-ignore-next-line */
             $tag = $branch->flags->tag ? '✓' : '';
             $table
                 ->addRows(
@@ -57,18 +54,18 @@ class CodeCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environmentFrom
      * @param string $environmentTo
-     *
+     * @throws \Exception
      * @command code:deploy
      * @option  no-backup Do not backup the database(s) prior to deploying code.
      * @aliases c:d
      */
     public function codeDeploy(
         Code $codeAdapter,
-        $uuid,
-        $environmentFrom,
-        $environmentTo,
-        $options = ['no-backup']
-    ) {
+        string $uuid,
+        string $environmentFrom,
+        string $environmentTo,
+        ?array $options = ['no-backup']
+    ): void {
         $environmentFrom = $this->cloudapiService->getEnvironment($uuid, $environmentFrom);
         $environmentTo = $this->cloudapiService->getEnvironment($uuid, $environmentTo);
 
@@ -106,7 +103,7 @@ class CodeCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $branch
-     *
+     * @throws \Exception
      * @command code:switch
      * @option  no-backup Do not backup the database(s) prior to switching code.
      * @aliases c:s
@@ -114,11 +111,11 @@ class CodeCommand extends AcquiaCommand
     public function codeSwitch(
         CloudApi $cloudapi,
         Code $codeAdapter,
-        $uuid,
-        $environment,
-        $branch,
-        $options = ['no-backup']
-    ) {
+        string $uuid,
+        string $environment,
+        string $branch,
+        ?array $options = ['no-backup']
+    ): void {
         $environment = $cloudapi->getEnvironment($uuid, $environment);
 
         if (

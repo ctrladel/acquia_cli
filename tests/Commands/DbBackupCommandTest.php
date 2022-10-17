@@ -6,7 +6,7 @@ use AcquiaCli\Tests\AcquiaCliTestCase;
 
 class DbBackupCommandTest extends AcquiaCliTestCase
 {
-    public function testDownloadDatabaseBackupsCommands()
+    public function testDownloadDatabaseBackupsCommands(): void
     {
         $command = ['database:backup:download', 'devcloud:devcloud2', 'dev', 'database2'];
         $actualResponse = $this->execute($command);
@@ -24,7 +24,7 @@ class DbBackupCommandTest extends AcquiaCliTestCase
         $this->assertStringContainsString(sys_get_temp_dir(), $matches[2]);
     }
 
-    public function testDownloadDatabaseBackupsCommandsWithOptions()
+    public function testDownloadDatabaseBackupsCommandsWithOptions(): void
     {
         $command = [
             'database:backup:download',
@@ -52,14 +52,19 @@ class DbBackupCommandTest extends AcquiaCliTestCase
 
     /**
      * @dataProvider dbBackupProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testDbBackupCommands($command, $expected)
+    public function testDbBackupCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function dbBackupProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function dbBackupProvider(): array
     {
 
         $dbBackupList = <<<TABLE

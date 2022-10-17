@@ -8,14 +8,19 @@ class DbCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider dbProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testDbCommands($command, $expected)
+    public function testDbCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function dbProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function dbProvider(): array
     {
 
         $dbTable = <<<TABLE

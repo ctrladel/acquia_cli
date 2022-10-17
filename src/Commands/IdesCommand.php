@@ -19,7 +19,7 @@ class IdesCommand extends AcquiaCommand
      *
      * @command ide:list
      */
-    public function list(Ides $idesAdapter, $uuid)
+    public function list(Ides $idesAdapter, $uuid): void
     {
         $ides = $idesAdapter->getAll($uuid);
         $table = new Table($this->output());
@@ -47,7 +47,7 @@ class IdesCommand extends AcquiaCommand
      * @command ide:create
      * @aliases ide:add
      */
-    public function create(Ides $idesAdapter, $uuid, $label)
+    public function create(Ides $idesAdapter, $uuid, $label): void
     {
         $response = $idesAdapter->create($uuid, $label);
         $this->say(sprintf('Creating IDE (%s)', $label));
@@ -62,7 +62,7 @@ class IdesCommand extends AcquiaCommand
      * @command ide:delete
      * @aliases ide:remove
      */
-    public function delete(Ides $idesAdapter, $ideUuid)
+    public function delete(Ides $idesAdapter, $ideUuid): void
     {
         if ($this->confirm('Are you sure you want to delete this IDE?')) {
             $this->say(sprintf('Deleting IDE (%s)', $ideUuid));

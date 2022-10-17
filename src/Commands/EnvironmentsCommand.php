@@ -24,7 +24,7 @@ class EnvironmentsCommand extends AcquiaCommand
      * @command environment:list
      * @aliases env:list,e:l
      */
-    public function environmentList(Environments $environmentsAdapter, OutputInterface $output, $uuid)
+    public function environmentList(Environments $environmentsAdapter, OutputInterface $output, string $uuid): void
     {
 
         $environments = $environmentsAdapter->getAll($uuid);
@@ -61,7 +61,7 @@ class EnvironmentsCommand extends AcquiaCommand
     /**
      * Shows detailed information about servers in an environment.
      *
-     * @param string      $uuid
+     * @param string $uuid
      * @param string|null $env
      *
      * @command environment:info
@@ -71,9 +71,9 @@ class EnvironmentsCommand extends AcquiaCommand
         Client $client,
         Environments $environmentsAdapter,
         Servers $serversAdapter,
-        $uuid,
-        $env = null
-    ) {
+        string $uuid,
+        ?string $env = null
+    ): void {
 
         if (null !== $env) {
             $client->addQuery('filter', "name=${env}");
@@ -95,20 +95,24 @@ class EnvironmentsCommand extends AcquiaCommand
     /**
      * @param EnvironmentResponse $environment
      */
-    protected function renderEnvironmentInfo(EnvironmentResponse $environment, Servers $serversAdapter)
+    protected function renderEnvironmentInfo(EnvironmentResponse $environment, Servers $serversAdapter): void
     {
 
         $this->yell(sprintf('%s environment', $environment->label));
         $this->say(sprintf('Environment ID: %s', $environment->uuid));
+        /** @phpstan-ignore-next-line */
         if ($environment->flags->livedev) {
             $this->say('💻  Livedev mode enabled.');
         }
+
+        /** @phpstan-ignore-next-line */
         if ($environment->flags->production_mode) {
             $this->say('🔒  Production mode enabled.');
         }
 
         $output = $this->output();
 
+        /** @phpstan-ignore-next-line */
         if (!$environment->flags->cde) {
             $serverTable = new Table($output);
             // needs AZ?
@@ -130,9 +134,13 @@ class EnvironmentsCommand extends AcquiaCommand
             $servers = $serversAdapter->getAll($environment->uuid);
 
             foreach ($servers as $server) {
+                /** @phpstan-ignore-next-line */
                 $memcache = $server->flags->memcache ? '✓' : ' ';
+                /** @phpstan-ignore-next-line */
                 $active = $server->flags->active_web || $server->flags->active_bal ? '✓' : ' ';
+                /** @phpstan-ignore-next-line */
                 $primaryDb = $server->flags->primary_db ? '✓' : ' ';
+                /** @phpstan-ignore-next-line */
                 $eip = $server->flags->elastic_ip ? '✓' : ' ';
 
                 $serverTable
@@ -182,6 +190,7 @@ class EnvironmentsCommand extends AcquiaCommand
             ->addRows(
                 [
                 [
+                    /** @phpstan-ignore-next-line */
                     $environment->vcs->path,
                     $environment->flags->cde ? $environment->name : ' ',
                     $environment->configuration->php->version,
@@ -201,12 +210,14 @@ class EnvironmentsCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command environment:branch
      * @aliases env:branch,e:b
      */
-    public function environmentBranch(Environments $environmentsAdapter, $uuid, $environment)
+    public function environmentBranch(Environments $environmentsAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
+        /** @phpstan-ignore-next-line */
         $this->say($environment->vcs->path);
     }
 
@@ -217,10 +228,11 @@ class EnvironmentsCommand extends AcquiaCommand
      * @param string $environment
      * @param string $name
      *
+     * @throws \Exception
      * @command environment:rename
      * @aliases env:rename,e:rename
      */
-    public function environmentRename(Environments $environmentsAdapter, $uuid, $environment, $name)
+    public function environmentRename(Environments $environmentsAdapter, string $uuid, string $environment, string $name): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->say(sprintf('Renaming %s to %s', $environment->label, $name));
@@ -233,10 +245,11 @@ class EnvironmentsCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command environment:delete
      * @aliases env:delete,e:d,environment:remove,env:remove
      */
-    public function environmentDelete(Environments $environmentsAdapter, $uuid, $environment)
+    public function environmentDelete(Environments $environmentsAdapter, string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm(sprintf('Are you sure you want to delete the %s environment?', $environment->label))) {
@@ -263,10 +276,11 @@ class EnvironmentsCommand extends AcquiaCommand
      * @param string $key
      * @param string $value
      *
+     * @throws \Exception
      * @command environment:configure
      * @aliases env:config,e:c,environment:config
      */
-    public function environmentConfigure(Environments $environmentsAdapter, $uuid, $environment, $key, $value)
+    public function environmentConfigure(Environments $environmentsAdapter, string $uuid, string $environment, string $key, string $value): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         if ($this->confirm(sprintf('Are you sure you want to update the %s environment with [%s => %s]?', $environment->label, $key, $value))) {

@@ -20,7 +20,7 @@ class SetupCommand extends Tasks
      * @command setup:config
      * @aliases setup
      */
-    public function setup(Config $config)
+    public function setup(Config $config): void
     {
         $configFiles = ['global' => $config->get('config.global')];
 
@@ -51,7 +51,7 @@ class SetupCommand extends Tasks
      *
      * @command setup:config:view
      */
-    public function configView(Config $config)
+    public function configView(Config $config): void
     {
         $configFiles = [
             'default' => $config->get('config.default'),
@@ -91,8 +91,9 @@ class SetupCommand extends Tasks
 
     /**
      * Function to create configuration files for this library.
+     * @param string $location
      */
-    private function createConfigYaml($location)
+    private function createConfigYaml(string $location): void
     {
         $key = $this->ask('What is your Acquia key?');
         $secret = $this->askHidden('What is your Acquia secret?');

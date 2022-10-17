@@ -8,14 +8,19 @@ class ProductionModeCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider productionModeProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testProductionModeCommands($command, $expected)
+    public function testProductionModeCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function productionModeProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function productionModeProvider(): array
     {
 
         $infoResponse = <<<INFO

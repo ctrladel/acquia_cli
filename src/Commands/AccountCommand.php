@@ -17,7 +17,7 @@ class AccountCommand extends AcquiaCommand
      *
      * @command account
      */
-    public function account(Config $config, Account $accountAdapter)
+    public function account(Config $config, Account $accountAdapter): void
     {
 
         $extraConfig = $config->get('extraconfig');
@@ -35,7 +35,9 @@ class AccountCommand extends AcquiaCommand
         $this->say(sprintf('Name: %s', $account->name));
         $this->say(sprintf('Last login: %s', $lastLogin->format($format)));
         $this->say(sprintf('Created at: %s', $createdAt->format($format)));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('Status: %s', $account->flags->active ? '✓' : ' '));
+        /** @phpstan-ignore-next-line */
         $this->say(sprintf('TFA: %s', $account->flags->tfa ? '✓' : ' '));
     }
 }

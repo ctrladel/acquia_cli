@@ -6,6 +6,7 @@ use AcquiaCloudApi\Connector\Client;
 use AcquiaCloudApi\Connector\Connector;
 use AcquiaCloudApi\Endpoints\DatabaseBackups;
 use AcquiaCloudApi\Endpoints\Databases;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
@@ -17,9 +18,9 @@ use Symfony\Component\Console\Helper\TableSeparator;
  */
 class DbBackupCommand extends AcquiaCommand
 {
-    private $downloadProgress;
+    private ProgressBar $downloadProgress;
 
-    private $lastStep;
+    private int $lastStep;
 
     /**
      * Backs up all DBs in an environment.
@@ -27,10 +28,11 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      *
+     * @throws \Exception
      * @command database:backup:all
      * @aliases db:backup:all
      */
-    public function dbBackupAll($uuid, $environment)
+    public function dbBackupAll(string $uuid, string $environment): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
         $this->backupAllEnvironmentDbs($uuid, $environment);
@@ -43,10 +45,11 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $environment
      * @param string $dbName
      *
+     * @throws \Exception
      * @command database:backup
      * @aliases db:backup
      */
-    public function dbBackup(Databases $databaseAdapter, $uuid, $environment, $dbName)
+    public function dbBackup(Databases $databaseAdapter, string $uuid, string $environment, string $dbName): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
@@ -65,8 +68,9 @@ class DbBackupCommand extends AcquiaCommand
      *
      * @param string $uuid
      * @param string $environment
-     * @param string $dbName
+     * @param string|null $dbName
      *
+     * @throws \Exception
      * @command database:backup:list
      * @aliases db:backup:list
      */
@@ -74,10 +78,10 @@ class DbBackupCommand extends AcquiaCommand
         Client $client,
         Databases $databaseAdapter,
         DatabaseBackups $databaseBackupsAdapter,
-        $uuid,
-        $environment,
-        $dbName = null
-    ) {
+        string $uuid,
+        string $environment,
+        ?string $dbName = null
+    ): void {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
         if (null !== $dbName) {
@@ -120,12 +124,13 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $dbName
-     * @param int    $backupId
+     * @param int $backupId
      *
+     * @throws \Exception
      * @command database:backup:restore
      * @aliases db:backup:restore
      */
-    public function dbBackupRestore(DatabaseBackups $databaseBackupsAdapter, $uuid, $environment, $dbName, $backupId)
+    public function dbBackupRestore(DatabaseBackups $databaseBackupsAdapter, string $uuid, string $environment, string $dbName, int $backupId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
@@ -146,12 +151,13 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $dbName
-     * @param int    $backupId
+     * @param string $backupId
      *
+     * @throws \Exception
      * @command database:backup:link
      * @aliases db:backup:link
      */
-    public function dbBackupLink($uuid, $environment, $dbName, $backupId)
+    public function dbBackupLink(string $uuid, string $environment, string $dbName, string $backupId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
@@ -172,9 +178,8 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $dbName
-     *
+     * @param array<mixed> $opts
      * @throws \Exception
-     *
      * @command database:backup:download
      * @aliases db:backup:download
      * @option  $backup Select which backup to download by backup ID. If omitted, the latest will be downloaded.
@@ -184,11 +189,11 @@ class DbBackupCommand extends AcquiaCommand
     public function dbBackupDownload(
         Client $client,
         DatabaseBackups $databaseBackupsAdapter,
-        $uuid,
-        $environment,
-        $dbName,
-        $opts = ['backup' => null, 'path' => null, 'filename' => null]
-    ) {
+        string $uuid,
+        string $environment,
+        string $dbName,
+        array $opts = ['backup' => null, 'path' => null, 'filename' => null]
+    ): void {
 
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 
@@ -269,12 +274,13 @@ class DbBackupCommand extends AcquiaCommand
      * @param string $uuid
      * @param string $environment
      * @param string $dbName
-     * @param int    $backupId
+     * @param int $backupId
      *
+     * @throws \Exception
      * @command database:backup:delete
      * @aliases db:backup:delete
      */
-    public function dbBackupDelete(DatabaseBackups $databaseBackupsAdapter, $uuid, $environment, $dbName, $backupId)
+    public function dbBackupDelete(DatabaseBackups $databaseBackupsAdapter, string $uuid, string $environment, string $dbName, int $backupId): void
     {
         $environment = $this->cloudapiService->getEnvironment($uuid, $environment);
 

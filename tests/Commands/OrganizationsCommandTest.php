@@ -8,14 +8,19 @@ class OrganizationsCommandTest extends AcquiaCliTestCase
 {
     /**
      * @dataProvider organizationsProvider
+     * @param array<int, string> $command
+     * @param string $expected
      */
-    public function testOrganizationsCommands($command, $expected)
+    public function testOrganizationsCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
         $this->assertSame($expected, $actualResponse);
     }
 
-    public function organizationsProvider()
+    /**
+     * @return array<array<mixed>>
+     */
+    public function organizationsProvider(): array
     {
         $getOrganizations = <<<TABLE
 +--------------------------------------+-----------------------+-----------+------+--------+-------+-------+-------+

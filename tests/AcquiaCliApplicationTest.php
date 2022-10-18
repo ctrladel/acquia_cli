@@ -156,7 +156,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
 
         $actualOptions = $this->client->getOptions();
         $actualUserAgent = $actualOptions['headers']['User-Agent'];
-        $this->assertSame($expectedUserAgent, $actualUserAgent);
+        $this->assertSameWithoutLE($expectedUserAgent, $actualUserAgent);
     }
 
     public function testRealm(): void
@@ -188,7 +188,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
 >  Skipping wait for notification.
 EXPECTED;
 
-        $this->assertSame($expected . PHP_EOL, $response);
+        $this->assertSameWithoutLE($expected . PHP_EOL, $response);
 
         \Robo\Robo::unsetContainer();
     }
@@ -202,32 +202,32 @@ EXPECTED;
         $this->assertInstanceOf('\AcquiaCloudApi\Connector\Client', $cloudApi->getClient());
 
         $applicationUuid = $cloudApi->getApplicationUuid('devcloud:devcloud2');
-        $this->assertSame('a47ac10b-58cc-4372-a567-0e02b2c3d470', $applicationUuid);
+        $this->assertSameWithoutLE('a47ac10b-58cc-4372-a567-0e02b2c3d470', $applicationUuid);
 
         try {
             $applicationError = $cloudApi->getApplicationUuid('devcloud:foobar');
         } catch (\Exception $e) {
-            $this->assertSame('Unable to find UUID for application', $e->getMessage());
+            $this->assertSameWithoutLE('Unable to find UUID for application', $e->getMessage());
         }
 
         $environment = $cloudApi->getEnvironment('a47ac10b-58cc-4372-a567-0e02b2c3d470', 'dev');
         $this->assertInstanceOf('\AcquiaCloudApi\Response\EnvironmentResponse', $environment);
-        $this->assertSame('24-a47ac10b-58cc-4372-a567-0e02b2c3d470', $environment->uuid);
-        $this->assertSame('dev', $environment->name);
-        $this->assertSame('Dev', $environment->label);
-        $this->assertSame('us-east-1', $environment->region);
-        $this->assertSame('normal', $environment->status);
+        $this->assertSameWithoutLE('24-a47ac10b-58cc-4372-a567-0e02b2c3d470', $environment->uuid);
+        $this->assertSameWithoutLE('dev', $environment->name);
+        $this->assertSameWithoutLE('Dev', $environment->label);
+        $this->assertSameWithoutLE('us-east-1', $environment->region);
+        $this->assertSameWithoutLE('normal', $environment->status);
 
         try {
             $environmentError = $cloudApi->getEnvironment('a47ac10b-58cc-4372-a567-0e02b2c3d470', 'foobar');
         } catch (\Exception $e) {
-            $this->assertSame('Unable to find environment from environment name', $e->getMessage());
+            $this->assertSameWithoutLE('Unable to find environment from environment name', $e->getMessage());
         }
 
 
         $command = ['organization:members', 'foobar'];
         $organizationError = $this->execute($command);
-        $this->assertSame(
+        $this->assertSameWithoutLE(
             ' [error]  Unable to find organization from organization name ' . PHP_EOL,
             $organizationError
         );
@@ -270,7 +270,7 @@ EXPECTED;
 
 OUTPUT;
 
-        $this->assertSame($notificationOutput . PHP_EOL, $sleep5Output, 'Testing 5s sleep output');
-        $this->assertSame($notificationOutput . PHP_EOL, $sleep2Output, 'Testing 2s sleep output');
+        $this->assertSameWithoutLE($notificationOutput . PHP_EOL, $sleep5Output, 'Testing 5s sleep output');
+        $this->assertSameWithoutLE($notificationOutput . PHP_EOL, $sleep2Output, 'Testing 2s sleep output');
     }
 }

@@ -86,7 +86,7 @@ jobs:
       run: composer install --prefer-source --no-progress --no-suggest --no-interaction
 
     - name: Run test suite
-      run: composer run-script unit
+      run: composer run-script test
 
 #    - name: Remove requirement for pcov/clobber
 #      run: composer remove pcov/clobber

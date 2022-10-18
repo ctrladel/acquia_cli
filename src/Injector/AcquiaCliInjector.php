@@ -27,10 +27,25 @@ use Consolidation\AnnotatedCommand\ParameterInjector;
 
 class AcquiaCliInjector implements ParameterInjector
 {
-    protected mixed $config;
-    protected mixed $cloudapi;
-    protected mixed $client;
-    protected mixed $logstream;
+    /**
+     * @var mixed
+     */
+    protected $config;
+
+    /**
+     * @var mixed
+     */
+    protected $cloudapi;
+
+    /**
+     * @var mixed
+     */
+    protected $client;
+
+    /**
+     * @var mixed
+     */
+    protected $logstream;
 
     public function __construct()
     {

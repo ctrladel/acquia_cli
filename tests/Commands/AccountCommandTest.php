@@ -38,7 +38,7 @@ class AccountCommandTest extends AcquiaCliTestCase
     public function testAccountInfo(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
-        $this->assertSame($expected, $actualResponse);
+        $this->assertSameWithoutLE($expected, $actualResponse);
     }
 
     /**

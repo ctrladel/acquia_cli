@@ -14,7 +14,7 @@ class IdesCommandTest extends AcquiaCliTestCase
     public function testIdesCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
-        $this->assertSame($expected, $actualResponse);
+        $this->assertSameWithoutLE($expected, $actualResponse);
     }
 
     /**

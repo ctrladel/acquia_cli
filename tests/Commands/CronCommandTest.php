@@ -14,7 +14,7 @@ class CronCommandTest extends AcquiaCliTestCase
     public function testCronCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
-        $this->assertSame($expected, $actualResponse);
+        $this->assertSameWithoutLE($expected, $actualResponse);
     }
 
     /**

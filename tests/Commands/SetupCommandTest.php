@@ -38,7 +38,7 @@ extraconfig:
 DEFAULT;
 
         $actualResponse = $this->execute($command);
-        $this->assertSame($defaultConfiguration, $actualResponse);
+        $this->assertSameWithoutLE($defaultConfiguration, $actualResponse);
     }
 
     public function testSetupConfigViewOverwritten(): void
@@ -83,7 +83,7 @@ OVERWRITTEN;
         putenv('ACQUIACLI_FORMAT=U');
 
         $actualResponse = $this->execute($command);
-        $this->assertSame($overwrittenConfiguration, $actualResponse);
+        $this->assertSameWithoutLE($overwrittenConfiguration, $actualResponse);
 
         putenv('ACQUIACLI_TIMEZONE=');
         putenv('ACQUIACLI_FORMAT=');

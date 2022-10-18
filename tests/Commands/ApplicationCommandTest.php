@@ -14,7 +14,29 @@ class ApplicationCommandTest extends AcquiaCliTestCase
     public function testApplicationCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
-        $this->assertSame($expected, $actualResponse);
+        $this->assertSameWithoutLE($expected, $actualResponse);
+    }
+
+    public function testApplicationInfoCommand(): void
+    {
+        $result = $this->execute(['application:info', 'devcloud:devcloud2']);
+
+        $this->assertStringContainsString('Dev (dev)', $result);
+        $this->assertStringContainsString('🔒  Production (prod)', $result);
+        $this->assertStringContainsString('Stage (test)', $result);
+        $this->assertStringContainsString('24-a47ac10b-58cc-4372-a567-0e02b2c3d470', $result);
+        $this->assertStringContainsString('15-a47ac10b-58cc-4372-a567-0e02b2c3d470', $result);
+        $this->assertStringContainsString('32-a47ac10b-58cc-4372-a567-0e02b2c3d470', $result);
+        $this->assertStringContainsString('master', $result);
+        $this->assertStringContainsString('tags/01-01-2015', $result);
+        $this->assertStringContainsString('sitedev.hosted.acquia-sites.com', $result);
+        $this->assertStringContainsString('siteprod.hosted.acquia-sites.com', $result);
+        $this->assertStringContainsString('sitetest.hosted.acquia-sites.com', $result);
+        $this->assertStringContainsString('example.com', $result);
+        $this->assertStringContainsString('test.example.com', $result);
+        $this->assertStringContainsString('database1', $result);
+        $this->assertStringContainsString('database2', $result);
+        $this->assertStringContainsString('qa10@svn-3.networkdev.ahserversdev.com:qa10.git', $result);
     }
 
     /**
@@ -62,10 +84,10 @@ TABLE;
                 ['application:list'],
                 $getAllApplications . PHP_EOL
             ],
-            [
-                ['application:info', 'devcloud:devcloud2'],
-                $applicationInfo . PHP_EOL
-            ],
+//            [
+//                ['application:info', 'devcloud:devcloud2'],
+//                $applicationInfo . PHP_EOL
+//            ],
             [
                 ['application:tags', 'devcloud:devcloud2'],
                 $getTags . PHP_EOL

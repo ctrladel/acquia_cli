@@ -166,7 +166,7 @@ abstract class AcquiaCliTestCase extends TestCase
         // Override the LogstreamManager with a mock in the container.
         $container = Robo::getContainer();
         /** @phpstan-ignore-next-line */
-        $container->extend('logstream')->setConcrete($this->logstream::class);
+        $container->extend('logstream')->setConcrete(get_class($this->logstream));
         $parameterInjection = $container->get('parameterInjection');
         $parameterInjection->register('AcquiaLogstream\LogstreamManager', new AcquiaCliInjector());
         Robo::setContainer($container);
@@ -476,5 +476,21 @@ abstract class AcquiaCliTestCase extends TestCase
         $property->setAccessible(true);
 
         return $property;
+    }
+
+    /**
+     * @todo replace this when https://github.com/sebastianbergmann/phpunit/issues/4641 is merged
+     *
+     * @param string $expected
+     * @param string $actual
+     * @param string $message
+     * @return void
+     */
+    protected function assertSameWithoutLE(string $expected, string $actual, string $message = ''): void
+    {
+        $expected = str_replace("\r\n", "\n", $expected);
+        $actual = str_replace("\r\n", "\n", $actual);
+
+        $this->assertSame($expected, $actual, $message);
     }
 }

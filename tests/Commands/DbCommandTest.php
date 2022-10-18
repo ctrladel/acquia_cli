@@ -14,7 +14,7 @@ class DbCommandTest extends AcquiaCliTestCase
     public function testDbCommands(array $command, string $expected): void
     {
         $actualResponse = $this->execute($command);
-        $this->assertSame($expected, $actualResponse);
+        $this->assertSameWithoutLE($expected, $actualResponse);
     }
 
     /**

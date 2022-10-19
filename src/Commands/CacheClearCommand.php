@@ -24,13 +24,13 @@ class CacheClearCommand extends Tasks
      * @command cache:clear
      * @aliases cc,cr
      */
-    public function clearCache(): mixed
+    public function clearCache(): void
     {
         $cache = new FilesystemAdapter('acquiacli');
         if ($cache->clear()) {
-            return $this->say('AcquiaCli cache has been cleared');
+            $this->say('AcquiaCli cache has been cleared');
+        } else {
+            throw new Exception('Problem clearing AcquiaCli cache.');
         }
-
-        throw new Exception('Problem clearing AcquiaCli cache.');
     }
 }

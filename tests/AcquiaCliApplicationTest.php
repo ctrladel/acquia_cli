@@ -88,7 +88,7 @@ class AcquiaCliApplicationTest extends AcquiaCliTestCase
         $command = ['--version'];
         $actualValue = $this->execute($command);
 
-        $this->assertEquals(sprintf('AcquiaCli %s', $version), $actualValue);
+        $this->assertSameWithoutLE(sprintf('AcquiaCli %s', $version), $actualValue);
     }
 
     public function testMissingVersion(): void

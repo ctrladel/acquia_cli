@@ -11,6 +11,8 @@ class DbBackupCommandTest extends AcquiaCliTestCase
         $command = ['database:backup:download', 'devcloud:devcloud2', 'dev', 'database2'];
         $actualResponse = $this->execute($command);
 
+        fwrite(STDERR, print_r($actualResponse, true));
+
         $this->assertEquals(
             preg_match(
                 '@>  Downloading database backup to ((\S+)dev-database2-(\w+).sql.gz)@',
@@ -36,6 +38,8 @@ class DbBackupCommandTest extends AcquiaCliTestCase
             '--path=/tmp'
         ];
         $actualResponse = $this->execute($command);
+
+        fwrite(STDERR, print_r($actualResponse, true));
 
         $this->assertEquals(
             preg_match(

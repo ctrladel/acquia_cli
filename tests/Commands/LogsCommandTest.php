@@ -32,6 +32,9 @@ class LogsCommandTest extends AcquiaCliTestCase
 //        }
     }
 
+    /**
+     * @requires OSFAMILY Linux|Darwin
+     */
     public function testDownloadLogsCommandsWithOptions(): void
     {
         $command = [
@@ -41,6 +44,35 @@ class LogsCommandTest extends AcquiaCliTestCase
             'apache-access',
             '--filename=bar',
             '--path=/tmp'
+        ];
+
+        $actualResponse = $this->execute($command);
+
+        $this->assertEquals(
+            preg_match(
+                '@>  Log downloaded to ((/tmp/)bar.tar.gz)@',
+                $actualResponse,
+                $matches
+            ),
+            1
+        );
+
+        $this->assertStringStartsWith('>  Log downloaded to ', $actualResponse);
+        $this->assertStringContainsString('/tmp/', $matches[2]);
+    }
+
+    /**
+     * @requires OSFAMILY Windows
+     */
+    public function testWindowsDownloadLogsCommandsWithOptions(): void
+    {
+        $command = [
+            'log:download',
+            'devcloud:devcloud2',
+            'dev',
+            'apache-access',
+            '--filename=bar',
+            '--path=C:\Users\runneradmin\AppData\Local\Temp'
         ];
 
         $actualResponse = $this->execute($command);

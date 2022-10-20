@@ -1,10 +1,14 @@
 {
-    "name": "typhonius/acquia_cli",
+    "name": "ctrladel/acquia_cli",
     "description": "A Robo CLI tool for integrating with Acquia CloudAPI",
     "authors": [
         {
             "name": "Adam Malone",
             "email": "adam@adammalone.net"
+        },
+        {
+            "name": "Kyle Einecker",
+            "email": "kyleeinecker@gmail.com"
         }
     ],
     "license": "MIT",

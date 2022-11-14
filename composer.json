@@ -3,10 +3,6 @@
     "description": "A Robo CLI tool for integrating with Acquia CloudAPI",
     "authors": [
         {
-            "name": "Adam Malone",
-            "email": "adam@adammalone.net"
-        },
-        {
             "name": "Kyle Einecker",
             "email": "kyleeinecker@gmail.com"
         }
@@ -14,12 +10,12 @@
     "license": "MIT",
     "require": {
         "php": ">=7.4|>=8.0|>=8.1",
-        "typhonius/acquia-php-sdk-v2": "^2.4",
-        "typhonius/acquia-logstream": "^0.0.12",
+        "typhonius/acquia-php-sdk-v2": "^2.0.0",
+        "typhonius/acquia-logstream": "^0.0.7",
         "consolidation/robo": "^3.0 | ^4.0",
-        "symfony/lock": "^4 | ^6",
-        "symfony/yaml": "^4 | ^6",
-        "symfony/cache": "^4| ^6",
+        "symfony/lock": "^4 | ^5 | ^6",
+        "symfony/yaml": "^4 | ^5 | ^6",
+        "symfony/cache": "^4 | ^5 | ^6",
         "webmozart/path-util": "^2.3"
     },
     "bin": ["bin/acquiacli"],
